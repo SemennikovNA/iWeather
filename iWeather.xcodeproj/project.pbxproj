@@ -13,6 +13,7 @@
 		1E7DC12A2B97634000295215 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1E7DC1292B97634000295215 /* Assets.xcassets */; };
 		1E7DC12D2B97634000295215 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E7DC12B2B97634000295215 /* LaunchScreen.storyboard */; };
 		1E7DC1382B97659F00295215 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7DC1372B97659F00295215 /* NetworkManager.swift */; };
+		1E7DC13C2B97749700295215 /* APIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7DC13B2B97749700295215 /* APIType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		1E7DC12C2B97634000295215 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1E7DC12E2B97634000295215 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1E7DC1372B97659F00295215 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		1E7DC13B2B97749700295215 /* APIType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,9 +88,26 @@
 		1E7DC1362B97658100295215 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				1E7DC1372B97659F00295215 /* NetworkManager.swift */,
+				1E7DC13A2B97748600295215 /* Services */,
+				1E7DC1392B97747400295215 /* Model */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		1E7DC1392B97747400295215 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1E7DC13A2B97748600295215 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				1E7DC1372B97659F00295215 /* NetworkManager.swift */,
+				1E7DC13B2B97749700295215 /* APIType.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -165,6 +184,7 @@
 				1E7DC1252B97633D00295215 /* MainViewController.swift in Sources */,
 				1E7DC1212B97633D00295215 /* AppDelegate.swift in Sources */,
 				1E7DC1232B97633D00295215 /* SceneDelegate.swift in Sources */,
+				1E7DC13C2B97749700295215 /* APIType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
