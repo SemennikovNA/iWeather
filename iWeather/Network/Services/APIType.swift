@@ -9,7 +9,6 @@ import Foundation
 
 enum APIType {
     
-    case login
     case fact
     case forecast
     
@@ -19,10 +18,7 @@ enum APIType {
     
     var headers: [String: String] {
         
-        switch self {
-        case .login: return ["X-Yandex-API-Key": "0193dd8e-3f93-48fe-8a05-00d8c8b61a4d"]
-        default: return [:]
-        }
+        return ["X-Yandex-API-Key": "0193dd8e-3f93-48fe-8a05-00d8c8b61a4d"]
     }
     
     var path: String {
@@ -30,14 +26,14 @@ enum APIType {
         switch self {
         case .fact: return "fact?"
         case .forecast: return "forecast"
-        case .login: return ""
+            
         }
     }
     
     var request: URLRequest {
         let url = URL(string: path, relativeTo: URL(string: baseURL)!)!
         var request = URLRequest(url: url)
-        request.addValue("0193dd8e-3f93-48fe-8a05-00d8c8b61a4d", forHTTPHeaderField: "X-Yandex-API-Key")
+        request.allHTTPHeaderFields = headers
         
         switch self {
         default:
