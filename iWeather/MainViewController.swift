@@ -20,14 +20,7 @@ class MainViewController: UIViewController {
         
         // Call method's
         setupView()
-        networkManager.fetchData { result in
-            switch result {
-            case .success(let success):
-                print(success)
-            case .failure(let failure):
-                print(failure)
-            }
-        }
+        networkManager.fetchForEachURL()
     }
 
     //MARK: - Private method

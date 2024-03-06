@@ -24,19 +24,49 @@ class NetworkManager {
     
     //MARK: - Method
     
-    func fetchData(completion: @escaping (Result<Data, NetworkError>) -> ()) {
-        let urlForFetch = APIType.forecast.request
+    func fetchForEachURL() {
+        let _: [URLRequest] = [
+            APIType.moscow.request,
+            APIType.saintp.request,
+            APIType.lownovgorod.request,
+            APIType.kazan.request,
+            APIType.samara.request,
+            APIType.ufa.request,
+            APIType.perm.request,
+            APIType.ekat.request,
+            APIType.chel.request,
+            APIType.omsk.request
+        ]
         
-        session.dataTask(with: urlForFetch) { data, response, error in
+        let oneUrl = APIType.moscow.request
+        
+        fetchData(url: oneUrl) { result in
+            switch result {
+            case .success(_):
+                print("success")
+            case .failure(_):
+                print("failure")
+            }
+        }
+    }
+    
+    //MARK: - Private method
+    
+    func fetchData(url: URLRequest, completion: @escaping (Result<WeatherData, NetworkError>) -> ()) {
+        session.dataTask(with: url) { [self] data, response, error in
             guard let data = data else {
                 if error != nil {
                     completion(.failure(.badResponse))
                 }
                 return
             }
-           
             
-            print(response)
+            do {
+                let weatherData = try decoder.decode(WeatherData.self, from: data)
+                completion(.success(weatherData))
+            } catch {
+                completion(.failure(.badResponse))
+            }
             print(String(data: data, encoding: .utf8)!)
         }.resume()
     }

@@ -8,26 +8,52 @@
 import Foundation
 
 enum APIType {
-    
-    case fact
-    case forecast
-    
-    var baseURL: String {
+
+    case moscow
+    case saintp
+    case lownovgorod
+    case kazan
+    case samara
+    case ufa
+    case perm
+    case ekat
+    case chel
+    case omsk
+        
+    private var baseURL: String {
+        
         return "https://api.weather.yandex.ru/v2/"
     }
     
-    var headers: [String: String] {
+   private var headers: [String: String] {
         
         return ["X-Yandex-API-Key": "0193dd8e-3f93-48fe-8a05-00d8c8b61a4d"]
     }
     
-    var path: String {
+   private var path: String {
         
-        switch self {
-        case .fact: return "fact?"
-        case .forecast: return "forecast"
-            
-        }
+       switch self {
+       case .moscow:
+           return "forecast?lat=55.7522&lon=37.6156"
+       case .saintp:
+           return "forecast?lat=59.9386&lon=30.3141"
+       case .lownovgorod:
+           return "forecast?lat=56.3287&lon=44.002"
+       case .kazan:
+           return "forecast?lat=55.7887&lon=49.1221"
+       case .samara:
+           return "forecast?lat=53.2001&lon=50.15"
+       case .ufa:
+           return "forecast?lat=54.7431&lon=55.9678"
+       case .perm:
+           return "forecast?lat=58.0105&lon=56.2502"
+       case .ekat:
+           return "forecast?lat=56.8519&lon=60.6122"
+       case .chel:
+           return "forecast?lat=55.154&lon=61.4291"
+       case .omsk:
+           return "forecast?lat=54.9924&lon=73.3686"
+       }
     }
     
     var request: URLRequest {
