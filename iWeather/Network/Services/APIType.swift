@@ -11,7 +11,7 @@ enum APIType {
 
     case moscow
     case saintp
-    case lownovgorod
+    case nnovgorod
     case kazan
     case samara
     case ufa
@@ -37,14 +37,14 @@ enum APIType {
            return "forecast?lat=55.7522&lon=37.6156"
        case .saintp:
            return "forecast?lat=59.9386&lon=30.3141"
-       case .lownovgorod:
+       case .nnovgorod:
            return "forecast?lat=56.3287&lon=44.002"
        case .kazan:
            return "forecast?lat=55.7887&lon=49.1221"
        case .samara:
-           return "forecast?lat=53.2001&lon=50.15"
+           return "forecast?lat=53.195878&lon=50.100202"
        case .ufa:
-           return "forecast?lat=54.7431&lon=55.9678"
+           return "forecast?lat=54.724307&lon=55.964614"
        case .perm:
            return "forecast?lat=58.0105&lon=56.2502"
        case .ekat:
