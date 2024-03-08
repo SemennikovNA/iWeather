@@ -7,7 +7,14 @@ import Foundation
 
 // MARK: - Weather
 
-struct WeatherData: Decodable {
+struct WeatherData: Decodable, Equatable {
+    
+    static func == (lhs: WeatherData, rhs: WeatherData) -> Bool {
+        return true
+    }
+    
+    
+
     let now: Int
     let nowDt: String
     let info: Info
@@ -72,6 +79,11 @@ struct Fact: Decodable {
 
 // Прогноз
 struct Forecast: Decodable {
+    
+    static func == (lhs: Forecast, rhs: Forecast) -> Bool {
+        return true
+    }
+    
     let date: String
     let sunrise, sunset: String
     let moonCode: Int

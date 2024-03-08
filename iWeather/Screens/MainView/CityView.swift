@@ -27,7 +27,8 @@ class CityView: UIView {
     
     override func layoutIfNeeded() {
         super.layoutIfNeeded()
-//        self.layer.maskedCorners =
+        self.layer.cornerRadius = self.frame.size.width / 15
+        self.clipsToBounds = true
     }
     //MARK: - Private method
     
