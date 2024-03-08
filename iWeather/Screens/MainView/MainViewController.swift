@@ -18,6 +18,7 @@ class MainViewController: UIViewController {
     
     private let cityView = CityView()
     private var cityCollection = WeatherCollection()
+    private let todayLabel = UILabel(text: "Today", textAlignment: .left, font: UIFont(name: "poppins-medium", size: 20))
     private var hourCollection = WeatherCollection()
 
     //MARK: - Life cycle
@@ -49,7 +50,7 @@ class MainViewController: UIViewController {
     private func setupView() {
         // Setup view
         view.backgroundColor = .backgroundViolet
-        view.addSubviews(cityView)
+        view.addSubviews(cityView, todayLabel)
         
         // Setup collection's
         setupCityCollection()
@@ -75,7 +76,7 @@ extension MainViewController: WeatherDataDelegate {
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     // Setup city collection 
-    func setupCityCollection() {
+    private func setupCityCollection() {
         cityCollection.register(CityCollectionCell.self, forCellWithReuseIdentifier: CityCollectionCell.cellID)
         cityCollection.backgroundColor = .clear
         cityCollection.showsHorizontalScrollIndicator = false
@@ -106,7 +107,16 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
 extension MainViewController {
     
-
+    // Setup hour collection
+    private func setupHourCollection() {
+        
+        hourCollection.backgroundColor = .clear
+        hourCollection.showsHorizontalScrollIndicator = false
+        hourCollection.contentInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+        hourCollection.delegate = self
+        hourCollection.dataSource = self
+        view.addSubviews(hourCollection)
+    }
 }
 
 //MARK: - Private extension
@@ -119,13 +129,18 @@ private extension MainViewController {
             cityView.topAnchor.constraint(equalTo: self.view.topAnchor),
             cityView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             cityView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            cityView.heightAnchor.constraint(equalToConstant: 350),
+            cityView.heightAnchor.constraint(equalToConstant: 381),
 
             // City collection
             cityCollection.topAnchor.constraint(equalTo: cityView.bottomAnchor, constant: 30),
             cityCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             cityCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             cityCollection.heightAnchor.constraint(equalToConstant: 220),
+            
+            // Today label
+            todayLabel.topAnchor.constraint(equalTo: cityCollection.bottomAnchor, constant: 25),
+            todayLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
+            todayLabel.heightAnchor.constraint(equalToConstant: 30),
         ])
     }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HeaderReuseView: UICollectionReusableView {
+class FooterReuseView: UICollectionReusableView {
     
     //MARK: - User interface element
     

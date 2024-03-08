@@ -22,7 +22,7 @@ class CityCollectionCell: UICollectionViewCell {
         return image
     }()
     private let cityLabel = UILabel(text: "Москва", textAlignment: .center, font: UIFont(name: "poppins-bold", size: 20))
-    private let cityTemperature =  UILabel(text: "-15C", textAlignment: .center, font: UIFont(name: "poppins-bold", size: 20))
+    private let cityTemperature =  UILabel(text: "-15°C", textAlignment: .center, font: UIFont(name: "poppins-bold", size: 20))
     
     //MARK: - Initialize
     
@@ -42,6 +42,12 @@ class CityCollectionCell: UICollectionViewCell {
         super.layoutIfNeeded()
         self.layer.cornerRadius = self.frame.size.width / 10
         self.clipsToBounds = true
+    }
+    
+    //MARK: - Method
+    
+    func setupCell(with model: String) {
+        
     }
     
     //MARK: - Private method
