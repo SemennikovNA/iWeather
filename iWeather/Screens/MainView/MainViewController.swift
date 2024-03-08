@@ -52,10 +52,28 @@ class MainViewController: UIViewController {
         view.backgroundColor = .backgroundViolet
         view.addSubviews(cityView, cityCollection, todayLabel, hourCollection)
         todayLabel.backgroundColor = .clear
+        
+        // Call method's
+        setupTargetsForButton()
     }
     
     private func signatureDelegate() {
         networkManager.delegate = self
+    }
+    
+    private func setupTargetsForButton() {
+        cityView.addTargetForAccountButton(target: self, selector: #selector(accountButtonTapped))
+        cityView.addTargetForMenuButton(target: self, selector: #selector(menuButtonTapped))
+    }
+    
+    //MARK: - Objective - C method
+    
+    @objc func accountButtonTapped() {
+        print("Account")
+    }
+    
+    @objc func menuButtonTapped() {
+        print("Burger")
     }
 
 }

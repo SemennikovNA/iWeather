@@ -14,12 +14,14 @@ class CityView: UIView {
     private let accountButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
+        button.isUserInteractionEnabled = true
         button.setImage(UIImage(named: "account"), for: .normal)
         return button
     }()
     private let menuButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
+        button.isUserInteractionEnabled = true
         button.setImage(UIImage(named: "burger"), for: .normal)
         return button
     }()
@@ -53,15 +55,26 @@ class CityView: UIView {
         self.layer.cornerRadius = self.frame.size.width / 15
         self.clipsToBounds = true
     }
+    
+    //MARK: - Method
+    
+    func addTargetForAccountButton(target: Any, selector: Selector) {
+        accountButton.addTarget(target, action: selector, for: .touchUpInside)
+    }
+    
+    func addTargetForMenuButton(target: Any, selector: Selector) {
+        menuButton.addTarget(target, action: selector, for: .touchUpInside)
+    }
+    
     //MARK: - Private method
     
     private func setupView() {
         // Setup view
-        self.addSubviews(cityImage)
+        self.addSubviews(cityImage, accountButton, menuButton)
         self.backgroundColor = .backgroundCity
         
         // Setup image view
-        cityImage.addSubviews(accountButton, menuButton, cityLabel, temperatureLabel, weatherDescription, dayLabel)
+        cityImage.addSubviews(cityLabel, temperatureLabel, weatherDescription, dayLabel)
     }
     
     private func setupConstraits() {
