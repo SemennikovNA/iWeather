@@ -9,6 +9,8 @@ import UIKit
 
 class CityWeatherCollection: UICollectionView {
     
+    
+    
     //MARK: - Initialize
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
@@ -34,7 +36,7 @@ extension CityWeatherCollection: UICollectionViewDelegate, UICollectionViewDataS
         self.register(CityCollectionCell.self, forCellWithReuseIdentifier: CityCollectionCell.cellID)
         self.backgroundColor = .clear
         self.showsHorizontalScrollIndicator = false
-        self.contentInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+        self.contentInset = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 15)
         self.delegate = self
         self.dataSource = self
     }
@@ -48,6 +50,12 @@ extension CityWeatherCollection: UICollectionViewDelegate, UICollectionViewDataS
         cell.layoutIfNeeded()
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        
+        return 25
+    }
+
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cellSize = CGSize(width: 172, height: 215)

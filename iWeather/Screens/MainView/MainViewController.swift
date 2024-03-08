@@ -18,7 +18,7 @@ class MainViewController: UIViewController {
     
     private let cityView = CityView()
     private var cityCollection = CityWeatherCollection()
-    private var hourCollection = HourCollection()
+    private var hourCollection = HourWeatherCollection()
     private let todayLabel = UILabel(text: "Today", textAlignment: .left, font: UIFont(name: "poppins-medium", size: 20))
 
     //MARK: - Life cycle
@@ -51,6 +51,7 @@ class MainViewController: UIViewController {
         // Setup view
         view.backgroundColor = .backgroundViolet
         view.addSubviews(cityView, cityCollection, todayLabel, hourCollection)
+        todayLabel.backgroundColor = .clear
     }
     
     private func signatureDelegate() {
@@ -81,7 +82,7 @@ private extension MainViewController {
             cityView.heightAnchor.constraint(equalToConstant: 381),
 
             // City collection
-            cityCollection.topAnchor.constraint(equalTo: cityView.bottomAnchor, constant: 30),
+            cityCollection.topAnchor.constraint(equalTo: cityView.bottomAnchor, constant: 15),
             cityCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             cityCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             cityCollection.heightAnchor.constraint(equalToConstant: 220),
@@ -95,7 +96,7 @@ private extension MainViewController {
             hourCollection.topAnchor.constraint(equalTo: todayLabel.bottomAnchor, constant: 6),
             hourCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             hourCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            hourCollection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            hourCollection.heightAnchor.constraint(equalToConstant: 130),
         ])
     }
 }

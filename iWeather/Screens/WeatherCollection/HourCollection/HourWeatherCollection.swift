@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HourCollection: UICollectionView {
+class HourWeatherCollection: UICollectionView {
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         let layout = UICollectionViewFlowLayout()
@@ -27,14 +27,14 @@ class HourCollection: UICollectionView {
 
 //MARK: Hour collection
 
-extension HourCollection: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension HourWeatherCollection: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
      // Setup hour collection
     private func setupHourCollection() {
         self.register(HourCollectionCell.self, forCellWithReuseIdentifier: HourCollectionCell.cellID)
         self.backgroundColor = .clear
         self.showsHorizontalScrollIndicator = false
-        self.contentInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+        self.contentInset = UIEdgeInsets(top: 0, left: 15, bottom: 10, right: 15)
         self.delegate = self
         self.dataSource = self
     }
@@ -49,8 +49,13 @@ extension HourCollection: UICollectionViewDelegate, UICollectionViewDataSource, 
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        
+        return 20
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellSize = CGSize(width: 76, height: 76)
+        let cellSize = CGSize(width: 76, height: 116)
         return cellSize
     }
 }
