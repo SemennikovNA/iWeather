@@ -17,9 +17,9 @@ class MainViewController: UIViewController {
     //MARK: - User interface element
     
     private let cityView = CityView()
-    private var cityCollection = WeatherCollection()
+    private var cityCollection = CityWeatherCollection()
+    private var hourCollection = HourCollection()
     private let todayLabel = UILabel(text: "Today", textAlignment: .left, font: UIFont(name: "poppins-medium", size: 20))
-    private var hourCollection = WeatherCollection()
 
     //MARK: - Life cycle
     
@@ -50,10 +50,7 @@ class MainViewController: UIViewController {
     private func setupView() {
         // Setup view
         view.backgroundColor = .backgroundViolet
-        view.addSubviews(cityView, todayLabel)
-        
-        // Setup collection's
-        setupCityCollection()
+        view.addSubviews(cityView, cityCollection, todayLabel, hourCollection)
     }
     
     private func signatureDelegate() {
@@ -68,54 +65,6 @@ extension MainViewController: WeatherDataDelegate {
     
     func transferWeatherData(_ networkManager: NetworkManager, data: [WeatherData]) {
         self.weatherData = data
-    }
-}
-
-//MARK: City collection
-
-extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-
-    // Setup city collection 
-    private func setupCityCollection() {
-        cityCollection.register(CityCollectionCell.self, forCellWithReuseIdentifier: CityCollectionCell.cellID)
-        cityCollection.backgroundColor = .clear
-        cityCollection.showsHorizontalScrollIndicator = false
-        cityCollection.contentInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
-        cityCollection.delegate = self
-        cityCollection.dataSource = self
-        view.addSubviews(cityCollection)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = cityCollection.dequeueReusableCell(withReuseIdentifier: CityCollectionCell.cellID, for: indexPath) as! CityCollectionCell
-        cell.layoutIfNeeded()
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellSize = CGSize(width: 172, height: 215)
-        return cellSize
-    }
-    
-}
-
-//MARK: Hour collection
-
-extension MainViewController {
-    
-    // Setup hour collection
-    private func setupHourCollection() {
-        
-        hourCollection.backgroundColor = .clear
-        hourCollection.showsHorizontalScrollIndicator = false
-        hourCollection.contentInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
-        hourCollection.delegate = self
-        hourCollection.dataSource = self
-        view.addSubviews(hourCollection)
     }
 }
 
@@ -140,7 +89,13 @@ private extension MainViewController {
             // Today label
             todayLabel.topAnchor.constraint(equalTo: cityCollection.bottomAnchor, constant: 25),
             todayLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
-            todayLabel.heightAnchor.constraint(equalToConstant: 30),
+            todayLabel.heightAnchor.constraint(equalToConstant: 20),
+            
+            // Hour collection
+            hourCollection.topAnchor.constraint(equalTo: todayLabel.bottomAnchor, constant: 6),
+            hourCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            hourCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            hourCollection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }
