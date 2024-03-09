@@ -80,10 +80,6 @@ struct Fact: Decodable {
 // Прогноз
 struct Forecast: Decodable {
     
-    static func == (lhs: Forecast, rhs: Forecast) -> Bool {
-        return true
-    }
-    
     let date: String
     let sunrise, sunset: String
     let moonCode: Int
@@ -119,7 +115,7 @@ struct PartDetail: Decodable {
     let soilMoisture: Double?
     let precMm: Double?
     let precProb: Int?
-
+    
     enum CodingKeys: String, CodingKey {
         case tempMin = "temp_min"
         case tempAvg = "temp_avg"

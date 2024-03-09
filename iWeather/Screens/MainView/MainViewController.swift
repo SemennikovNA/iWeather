@@ -29,7 +29,6 @@ class MainViewController: UIViewController {
         // Call method's
         setupView()
         setupConstraints()
-        signatureDelegate()
     }
     
     override func viewWillLayoutSubviews() {
@@ -51,9 +50,9 @@ class MainViewController: UIViewController {
         // Setup view
         view.backgroundColor = .backgroundViolet
         view.addSubviews(cityView, cityCollection, todayLabel, hourCollection)
-        todayLabel.backgroundColor = .clear
         
         // Call method's
+        signatureDelegate()
         setupTargetsForButton()
     }
     
@@ -84,6 +83,19 @@ extension MainViewController: WeatherDataDelegate {
     
     func transferWeatherData(_ networkManager: NetworkManager, data: [WeatherData]) {
         self.weatherData = data
+        
+        let city = weatherData[0].geoObject.locality.name
+        let city1 = weatherData[1].geoObject.locality.name
+        let city2 = weatherData[2].geoObject.locality.name
+        let city3 = weatherData[3].geoObject.locality.name
+        let city4 = weatherData[4].geoObject.locality.name
+        let city5 = weatherData[5].geoObject.locality.name
+        let city6 = weatherData[6].geoObject.locality.name
+        let city7 = weatherData[7].geoObject.locality.name
+        let city8 = weatherData[8].geoObject.locality.name
+        let city9 = weatherData[9].geoObject.locality.name
+        
+        print(city, city1, city2, city3, city4, city5, city6, city7, city8, city9, separator: "\n")
     }
 }
 
