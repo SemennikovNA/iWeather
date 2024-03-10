@@ -25,6 +25,14 @@ class MainViewController: UIViewController {
     private var cityCollection = WeatherCollectionView()
     private var hourCollection = WeatherCollectionView()
     private let todayLabel = UILabel(text: "Today", textAlignment: .left, font: UIFont(name: "poppins-medium", size: 20))
+    private let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.hidesWhenStopped = true
+        indicator.style = .large
+        indicator.startAnimating()
+        indicator.color = .white
+        return indicator
+    }()
 
     //MARK: - Life cycle
     
@@ -56,7 +64,7 @@ class MainViewController: UIViewController {
 
         // Setup view
         view.backgroundColor = .backgroundViolet
-        view.addSubviews(cityView, cityCollection, todayLabel, hourCollection)
+        view.addSubviews(cityView, cityCollection, activityIndicator, todayLabel, hourCollection)
         
         // Call method's
         setupCityCollection()
@@ -154,6 +162,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let cell = cityCollection.dequeueReusableCell(withReuseIdentifier: CityCollectionCell.cellID, for: indexPath) as! CityCollectionCell
             cell.layoutIfNeeded()
             cell.setupCell(with: dataForCell[indexPath.item])
+            activityIndicator.stopAnimating()
             return cell
         } else if collectionView == hourCollection {
             let cell = hourCollection.dequeueReusableCell(withReuseIdentifier: HourCollectionCell.cellID, for: indexPath) as! HourCollectionCell
@@ -198,6 +207,10 @@ private extension MainViewController {
             cityView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             cityView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             cityView.heightAnchor.constraint(equalToConstant: 381),
+            
+            // Activity indicator
+            activityIndicator.centerXAnchor.constraint(equalTo: cityCollection.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: cityCollection.centerYAnchor),
 
             // City collection
             cityCollection.topAnchor.constraint(equalTo: cityView.bottomAnchor, constant: 15),

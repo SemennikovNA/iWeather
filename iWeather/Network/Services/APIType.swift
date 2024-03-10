@@ -50,7 +50,7 @@ enum APIType {
        case .ekat:
            return "forecast?lat=56.8519&lon=60.6122"
        case .chel:
-           return "forecast?lat=55.154&lon=61.4291"
+           return "forecast?lat=55.15&lon=61.4"
        case .omsk:
            return "forecast?lat=54.9924&lon=73.3686"
        }
