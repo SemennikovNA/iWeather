@@ -21,8 +21,8 @@ class CityCollectionCell: UICollectionViewCell {
         image.image = UIImage(named: "moscow")
         return image
     }()
-    private let cityLabel = UILabel(text: "Москва", textAlignment: .center, font: UIFont(name: "poppins-bold", size: 20))
-    private let cityTemperature =  UILabel(text: "-15°C", textAlignment: .center, font: UIFont(name: "poppins-bold", size: 20))
+    private let cityLabel = UILabel(textAlignment: .left, font: UIFont(name: "poppins-bold", size: 20), numberOfLines: 1)
+    private let cityTemperature =  UILabel(textAlignment: .right, font: UIFont(name: "poppins-bold", size: 20))
     
     //MARK: - Initialize
     
@@ -46,8 +46,11 @@ class CityCollectionCell: UICollectionViewCell {
     
     //MARK: - Method
     
-    func setupCell(with model: String) {
-        
+    func setupCell(with model: WeatherData) {
+        let factTemperature = model.fact.temp
+        let textForTemperatureLabel = "\(factTemperature)°C"
+        cityLabel.text = model.geoObject.locality.name
+        cityTemperature.text = textForTemperatureLabel
     }
     
     //MARK: - Private method
@@ -59,8 +62,10 @@ class CityCollectionCell: UICollectionViewCell {
         cityImage.addSubviews(cityLabel, cityTemperature)
         
         // Label's configure
+        cityLabel.minimumScaleFactor = 0.01
+        cityLabel.contentScaleFactor = 0.01
         cityLabel.adjustsFontSizeToFitWidth = true
-        cityLabel.minimumScaleFactor = 5
+        cityLabel.adjustsFontForContentSizeCategory = true
     }
     
     private func setupConstraints() {
@@ -80,12 +85,14 @@ class CityCollectionCell: UICollectionViewCell {
             // City label
             cityLabel.topAnchor.constraint(equalTo: cityImage.topAnchor, constant: 25),
             cityLabel.leadingAnchor.constraint(equalTo: cityImage.leadingAnchor, constant: 10),
+            cityLabel.trailingAnchor.constraint(equalTo: cityTemperature.leadingAnchor),
             cityLabel.heightAnchor.constraint(equalToConstant: 30),
             
             // City temperature label
             cityTemperature.topAnchor.constraint(equalTo: cityImage.topAnchor, constant: 27),
-            cityTemperature.trailingAnchor.constraint(equalTo: cityImage.trailingAnchor, constant: -10),
+            cityTemperature.trailingAnchor.constraint(equalTo: cityImage.trailingAnchor, constant: -5),
             cityTemperature.heightAnchor.constraint(equalToConstant: 30),
+            cityTemperature.widthAnchor.constraint(equalToConstant: 60),
         ])
     }
 }

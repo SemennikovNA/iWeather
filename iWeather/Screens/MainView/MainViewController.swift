@@ -12,16 +12,29 @@ class MainViewController: UIViewController {
     //MARK: - Propertie
     
     private let networkManager = NetworkManager.shared
-    private var weatherData: [WeatherData] = []
+    private var weatherData: [WeatherData]? {
+        didSet {
+            cityCollection.reloadData()
+            hourCollection.reloadData()
+        }
+    }
     
     //MARK: - User interface element
     
     private let cityView = CityView()
-    private var cityCollection = CityWeatherCollection()
-    private var hourCollection = HourWeatherCollection()
+    private var cityCollection = WeatherCollectionView()
+    private var hourCollection = WeatherCollectionView()
     private let todayLabel = UILabel(text: "Today", textAlignment: .left, font: UIFont(name: "poppins-medium", size: 20))
 
     //MARK: - Life cycle
+    
+    override func loadView() {
+        super.loadView()
+        weatherData = []
+        
+        // Fetch data
+        networkManager.fetchForEachURL()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,45 +49,57 @@ class MainViewController: UIViewController {
         
         cityView.layoutIfNeeded()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // Fetch data
-        networkManager.fetchForEachURL()
-    }
 
     //MARK: - Private method
     
     private func setupView() {
+
         // Setup view
         view.backgroundColor = .backgroundViolet
         view.addSubviews(cityView, cityCollection, todayLabel, hourCollection)
         
         // Call method's
+        setupCityCollection()
+        setupHourCollection()
         signatureDelegate()
-        setupTargetsForButton()
+        setupNavigationBar()
     }
     
     private func signatureDelegate() {
         networkManager.delegate = self
+        cityCollection.delegate = self
+        cityCollection.dataSource = self
+        hourCollection.delegate = self
+        hourCollection.dataSource = self
     }
     
-    private func setupTargetsForButton() {
-        cityView.addTargetForAccountButton(target: self, selector: #selector(accountButtonTapped))
-        cityView.addTargetForMenuButton(target: self, selector: #selector(menuButtonTapped))
+    private func setupNavigationBar() {
+        let accountBarButton = UIBarButtonItem(image: UIImage(named: "account"), style: .plain, target: self, action: #selector(accountButtonTapped))
+        let menuBarButton = UIBarButtonItem(image: UIImage(named: "burger"), style: .plain, target: self, action: #selector(menuButtonTapped))
+        
+        accountBarButton.tintColor = .white
+        menuBarButton.tintColor = .white
+        
+        navigationItem.backButtonTitle = "Назад"
+        navigationItem.leftBarButtonItem = accountBarButton
+        navigationItem.rightBarButtonItem = menuBarButton
     }
     
     //MARK: - Objective - C method
     
     @objc func accountButtonTapped() {
-        print("Account")
+        let accountVC = GreenViewController(textLabel: "Hello World!")
+        accountVC.modalTransitionStyle = .coverVertical
+        accountVC.modalPresentationStyle = .formSheet
+        present(accountVC, animated: true)
     }
     
     @objc func menuButtonTapped() {
-        print("Burger")
+        let menuVC = GreenViewController(textLabel: "")
+        menuVC.modalPresentationStyle = .fullScreen
+        menuVC.modalTransitionStyle = .flipHorizontal
+        navigationController?.pushViewController(menuVC, animated: true)
     }
-
 }
 
 //MARK: - Extension
@@ -83,19 +108,82 @@ extension MainViewController: WeatherDataDelegate {
     
     func transferWeatherData(_ networkManager: NetworkManager, data: [WeatherData]) {
         self.weatherData = data
+        cityCollection.reloadData()
+        hourCollection.reloadData()
+    }
+}
+
+//MARK: Weather collection
+
+extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    // Setup city collection
+    private func setupCityCollection() {
+        cityCollection.register(CityCollectionCell.self, forCellWithReuseIdentifier: CityCollectionCell.cellID)
+        cityCollection.backgroundColor = .clear
+        cityCollection.showsHorizontalScrollIndicator = false
+        cityCollection.contentInset = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 15)
+    }
+    
+    // Setup hour collection
+    private func setupHourCollection() {
+        hourCollection.register(HourCollectionCell.self, forCellWithReuseIdentifier: HourCollectionCell.cellID)
+        hourCollection.backgroundColor = .clear
+        hourCollection.showsHorizontalScrollIndicator = false
+        hourCollection.contentInset = UIEdgeInsets(top: 0, left: 15, bottom: 10, right: 15)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if collectionView == cityCollection {
+            guard let data = weatherData else { return 10 }
+            return data.count
+        } else if collectionView == hourCollection {
+            return 10
+        } else {
+            return 10
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    
+        guard let dataForCell = weatherData else {
+            return UICollectionViewCell()
+        }
         
-        let city = weatherData[0].geoObject.locality.name
-        let city1 = weatherData[1].geoObject.locality.name
-        let city2 = weatherData[2].geoObject.locality.name
-        let city3 = weatherData[3].geoObject.locality.name
-        let city4 = weatherData[4].geoObject.locality.name
-        let city5 = weatherData[5].geoObject.locality.name
-        let city6 = weatherData[6].geoObject.locality.name
-        let city7 = weatherData[7].geoObject.locality.name
-        let city8 = weatherData[8].geoObject.locality.name
-        let city9 = weatherData[9].geoObject.locality.name
-        
-        print(city, city1, city2, city3, city4, city5, city6, city7, city8, city9, separator: "\n")
+        if collectionView == cityCollection {
+            let cell = cityCollection.dequeueReusableCell(withReuseIdentifier: CityCollectionCell.cellID, for: indexPath) as! CityCollectionCell
+            cell.layoutIfNeeded()
+            cell.setupCell(with: dataForCell[indexPath.item])
+            return cell
+        } else if collectionView == hourCollection {
+            let cell = hourCollection.dequeueReusableCell(withReuseIdentifier: HourCollectionCell.cellID, for: indexPath) as! HourCollectionCell
+            cell.layoutIfNeeded()
+            return cell
+        } else {
+            let cell = UICollectionViewCell()
+            return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        let cityMinimumLineSpacingForSectionAt: CGFloat = 25
+        let hourMinimumLineSpacingForSectionAt: CGFloat = 20
+        if collectionView == cityCollection {
+            return cityMinimumLineSpacingForSectionAt
+        } else {
+            return hourMinimumLineSpacingForSectionAt
+        }
+    }
+
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let cityCellSize = CGSize(width: 172, height: 215)
+        let hourCellSize = CGSize(width: 76, height: 116)
+        if collectionView == cityCollection {
+            return cityCellSize
+        } else {
+            return hourCellSize
+        }
     }
 }
 

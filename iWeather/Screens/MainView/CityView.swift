@@ -11,20 +11,6 @@ class CityView: UIView {
     
     //MARK: - User interface element
     
-    private let accountButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .clear
-        button.isUserInteractionEnabled = true
-        button.setImage(UIImage(named: "account"), for: .normal)
-        return button
-    }()
-    private let menuButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .clear
-        button.isUserInteractionEnabled = true
-        button.setImage(UIImage(named: "burger"), for: .normal)
-        return button
-    }()
     private let cityImage: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleToFill
@@ -56,21 +42,11 @@ class CityView: UIView {
         self.clipsToBounds = true
     }
     
-    //MARK: - Method
-    
-    func addTargetForAccountButton(target: Any, selector: Selector) {
-        accountButton.addTarget(target, action: selector, for: .touchUpInside)
-    }
-    
-    func addTargetForMenuButton(target: Any, selector: Selector) {
-        menuButton.addTarget(target, action: selector, for: .touchUpInside)
-    }
-    
     //MARK: - Private method
     
     private func setupView() {
         // Setup view
-        self.addSubviews(cityImage, accountButton, menuButton)
+        self.addSubviews(cityImage)
         self.backgroundColor = .backgroundCity
         
         // Setup image view
@@ -78,19 +54,7 @@ class CityView: UIView {
     }
     
     private func setupConstraits() {
-        NSLayoutConstraint.activate([
-            //Account button
-            accountButton.topAnchor.constraint(equalTo: cityImage.safeAreaLayoutGuide.topAnchor),
-            accountButton.leadingAnchor.constraint(equalTo: cityImage.leadingAnchor, constant: 22),
-            accountButton.heightAnchor.constraint(equalToConstant: 34),
-            accountButton.widthAnchor.constraint(equalToConstant: 34),
-            
-            // Menu button
-            menuButton.topAnchor.constraint(equalTo: cityImage.safeAreaLayoutGuide.topAnchor),
-            menuButton.trailingAnchor.constraint(equalTo: cityImage.trailingAnchor, constant: -27),
-            menuButton.heightAnchor.constraint(equalToConstant: 34),
-            menuButton.widthAnchor.constraint(equalToConstant: 34),
-            
+        NSLayoutConstraint.activate([        
             // City image
             cityImage.topAnchor.constraint(equalTo: self.topAnchor),
             cityImage.leadingAnchor.constraint(equalTo: self.leadingAnchor),

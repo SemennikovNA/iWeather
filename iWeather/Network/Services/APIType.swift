@@ -44,7 +44,7 @@ enum APIType {
        case .samara:
            return "forecast?lat=53.195878&lon=50.100202"
        case .ufa:
-           return "forecast?lat=54.724307&lon=55.964614"
+           return "forecast?lat=54.7387&lon=55.97206"
        case .perm:
            return "forecast?lat=58.0105&lon=56.2502"
        case .ekat:

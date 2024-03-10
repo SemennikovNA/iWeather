@@ -27,8 +27,8 @@ class CityWeatherCollection: UICollectionView {
     }
 }
 
+//MARK: - Extension
 //MARK: City collection
-
 extension CityWeatherCollection: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     // Setup city collection
@@ -52,8 +52,8 @@ extension CityWeatherCollection: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        
-        return 25
+        let minimumLineSpacingForSectionAt: CGFloat = 25
+        return minimumLineSpacingForSectionAt
     }
 
     

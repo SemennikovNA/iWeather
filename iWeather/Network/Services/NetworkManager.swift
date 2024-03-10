@@ -5,20 +5,6 @@
 //  Created by Nikita on 05.03.2024.
 //
 
-/*
- "https://api.weather.yandex.ru/v2/forecast?lat=55.7522&lon=37.6156",
- "https://api.weather.yandex.ru/v2/forecast?lat=59.9386&lon=30.3141",
- "https://api.weather.yandex.ru/v2/forecast?lat=56.3287&lon=44.002",
- "https://api.weather.yandex.ru/v2/forecast?lat=55.7887&lon=49.1221",
- "https://api.weather.yandex.ru/v2/forecast?lat=53.195878&lon=50.100202",
- "https://api.weather.yandex.ru/v2/forecast?lat=54.724307&lon=55.964614",
- "https://api.weather.yandex.ru/v2/forecast?lat=58.0105&lon=56.2502",
- "https://api.weather.yandex.ru/v2/forecast?lat=56.8519&lon=60.6122",
- "https://api.weather.yandex.ru/v2/forecast?lat=55.154&lon=61.4291",
- "https://api.weather.yandex.ru/v2/forecast?lat=54.9924&lon=73.3686"
- }
- */
-
 import Foundation
 
 protocol WeatherDataDelegate {

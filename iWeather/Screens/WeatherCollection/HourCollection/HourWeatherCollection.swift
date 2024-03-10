@@ -25,8 +25,8 @@ class HourWeatherCollection: UICollectionView {
     
 }
 
+//MARK: - Extension
 //MARK: Hour collection
-
 extension HourWeatherCollection: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
      // Setup hour collection
@@ -50,8 +50,8 @@ extension HourWeatherCollection: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        
-        return 20
+        let minimumLineSpacingForSectionAt: CGFloat = 20
+        return minimumLineSpacingForSectionAt
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
