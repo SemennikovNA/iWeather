@@ -105,6 +105,18 @@ class MainViewController: UIViewController {
         navigationItem.rightBarButtonItem = menuBarButton
     }
     
+    private func dateFormatter(date: Int) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd-MM-yyyy"
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeZone = .current
+        
+        let dateObject = Date(timeIntervalSince1970: TimeInterval(date))
+        
+        let formattedDate = dateFormatter.string(from: dateObject)
+        return formattedDate
+    }
+    
     private func setupScrollButton() {
         let scrollButton = UIButton(image: "arrow", target: self, action: #selector(scrollRightButtonTapped))
         hourCollection.addSubviews(scrollButton)

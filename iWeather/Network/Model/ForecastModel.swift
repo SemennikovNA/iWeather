@@ -7,13 +7,7 @@ import Foundation
 
 // MARK: - Weather
 
-struct WeatherData: Decodable, Equatable {
-    
-    static func == (lhs: WeatherData, rhs: WeatherData) -> Bool {
-        return true
-    }
-    
-    
+struct WeatherData: Decodable {
 
     let now: Int
     let nowDt: String
