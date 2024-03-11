@@ -13,7 +13,7 @@ class CityView: UIView {
     
     private let cityImage: UIImageView = {
         let image = UIImageView()
-        image.contentMode = .scaleToFill
+        image.contentMode = .scaleAspectFill
         image.image = UIImage(named: "moscow")
         return image
     }()
@@ -40,6 +40,15 @@ class CityView: UIView {
         super.layoutIfNeeded()
         self.layer.cornerRadius = self.frame.size.width / 15
         self.clipsToBounds = true
+    }
+    
+    //MARK: - Method
+    
+    func setupDataForView(with model: WeatherData, image: String) {
+        cityLabel.text = model.geoObject.locality.name
+        let temperature = model.fact.temp
+        temperatureLabel.text = "\(temperature)°C"
+        cityImage.image = UIImage(named: image)
     }
     
     //MARK: - Private method

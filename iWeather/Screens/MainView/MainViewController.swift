@@ -12,12 +12,24 @@ class MainViewController: UIViewController {
     //MARK: - Propertie
     
     private let networkManager = NetworkManager.shared
-    private var weatherData: [WeatherData]? {
+    private var weatherData: [WeatherData] = [] {
         didSet {
             cityCollection.reloadData()
             hourCollection.reloadData()
         }
     }
+    private let photoDict: [String: String] = [
+        "Москва": "moscow",
+        "Санкт-Петербург": "snp",
+        "Нижний Новгород": "nnovgorod",
+        "округ Уфа": "ufa",
+        "Казань": "kazan",
+        "округ Самара": "samara",
+        "Пермь": "perm",
+        "Екатеринбург": "ekat",
+        "округ Челябинск": "chel",
+        "Омск": "omsk"
+    ]
     
     //MARK: - User interface element
     
@@ -33,7 +45,7 @@ class MainViewController: UIViewController {
         indicator.color = .white
         return indicator
     }()
-
+    
     //MARK: - Life cycle
     
     override func loadView() {
@@ -48,6 +60,7 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         
         // Call method's
+        
         setupView()
         setupConstraints()
     }
@@ -57,11 +70,10 @@ class MainViewController: UIViewController {
         
         cityView.layoutIfNeeded()
     }
-
+    
     //MARK: - Private method
     
     private func setupView() {
-
         // Setup view
         view.backgroundColor = .backgroundViolet
         view.addSubviews(cityView, cityCollection, activityIndicator, todayLabel, hourCollection)
@@ -93,6 +105,15 @@ class MainViewController: UIViewController {
         navigationItem.rightBarButtonItem = menuBarButton
     }
     
+    private func setupScrollButton() {
+        let scrollButton = UIButton(image: "arrow", target: self, action: #selector(scrollRightButtonTapped))
+        hourCollection.addSubviews(scrollButton)
+        
+        // Scroll button constraints
+        scrollButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -2).isActive = true
+        scrollButton.centerYAnchor.constraint(equalTo: hourCollection.centerYAnchor, constant: -22).isActive = true
+    }
+    
     //MARK: - Objective - C method
     
     @objc func accountButtonTapped() {
@@ -107,6 +128,17 @@ class MainViewController: UIViewController {
         menuVC.modalPresentationStyle = .fullScreen
         menuVC.modalTransitionStyle = .flipHorizontal
         navigationController?.pushViewController(menuVC, animated: true)
+    }
+    
+    @objc func scrollRightButtonTapped() {
+        let cellWidth: CGFloat = 200
+        let currentOffset = hourCollection.contentOffset
+        let newOffset = CGPoint(x: currentOffset.x + cellWidth, y: currentOffset.y)
+        
+        let rightEdge = hourCollection.contentSize.width - hourCollection.bounds.width
+        if currentOffset.x < rightEdge {
+            hourCollection.setContentOffset(newOffset, animated: true)
+        }
     }
 }
 
@@ -138,13 +170,13 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         hourCollection.register(HourCollectionCell.self, forCellWithReuseIdentifier: HourCollectionCell.cellID)
         hourCollection.backgroundColor = .clear
         hourCollection.showsHorizontalScrollIndicator = false
-        hourCollection.contentInset = UIEdgeInsets(top: 0, left: 15, bottom: 10, right: 15)
+        hourCollection.contentInset = UIEdgeInsets(top: 0, left: 12, bottom: 10, right: 15)
+        setupScrollButton()
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == cityCollection {
-            guard let data = weatherData else { return 10 }
-            return data.count
+            return weatherData.count
         } else if collectionView == hourCollection {
             return 10
         } else {
@@ -153,15 +185,14 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    
-        guard let dataForCell = weatherData else {
-            return UICollectionViewCell()
-        }
+        
+        let dataForCell = weatherData
         
         if collectionView == cityCollection {
             let cell = cityCollection.dequeueReusableCell(withReuseIdentifier: CityCollectionCell.cellID, for: indexPath) as! CityCollectionCell
             cell.layoutIfNeeded()
-            cell.setupCell(with: dataForCell[indexPath.item])
+            let getImageName = photoDict[dataForCell[indexPath.item].geoObject.locality.name]
+            cell.setupCell(with: dataForCell[indexPath.item], image: getImageName!)
             activityIndicator.stopAnimating()
             return cell
         } else if collectionView == hourCollection {
@@ -174,6 +205,13 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let currentItem = weatherData
+        let getImageName = photoDict[weatherData[indexPath.item].geoObject.locality.name]
+        cityView.setupDataForView(with: currentItem[indexPath.item], image: getImageName!)
+        
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         let cityMinimumLineSpacingForSectionAt: CGFloat = 25
         let hourMinimumLineSpacingForSectionAt: CGFloat = 20
@@ -183,7 +221,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return hourMinimumLineSpacingForSectionAt
         }
     }
-
+    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cityCellSize = CGSize(width: 172, height: 215)
@@ -211,7 +249,7 @@ private extension MainViewController {
             // Activity indicator
             activityIndicator.centerXAnchor.constraint(equalTo: cityCollection.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: cityCollection.centerYAnchor),
-
+            
             // City collection
             cityCollection.topAnchor.constraint(equalTo: cityView.bottomAnchor, constant: 15),
             cityCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -227,7 +265,7 @@ private extension MainViewController {
             hourCollection.topAnchor.constraint(equalTo: todayLabel.bottomAnchor, constant: 6),
             hourCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             hourCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            hourCollection.heightAnchor.constraint(equalToConstant: 130),
+            hourCollection.heightAnchor.constraint(equalToConstant: 130)
         ])
     }
 }

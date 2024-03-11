@@ -17,7 +17,7 @@ class CityCollectionCell: UICollectionViewCell {
     
     private let cityImage: UIImageView = {
         let image = UIImageView()
-        image.contentMode = .scaleToFill
+        image.contentMode = .scaleAspectFill
         image.image = UIImage(named: "moscow")
         return image
     }()
@@ -46,11 +46,12 @@ class CityCollectionCell: UICollectionViewCell {
     
     //MARK: - Method
     
-    func setupCell(with model: WeatherData) {
+    func setupCell(with model: WeatherData, image: String) {
         let factTemperature = model.fact.temp
         let textForTemperatureLabel = "\(factTemperature)°C"
         cityLabel.text = model.geoObject.locality.name
         cityTemperature.text = textForTemperatureLabel
+        cityImage.image = UIImage(named: image)
     }
     
     //MARK: - Private method
