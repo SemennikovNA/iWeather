@@ -226,7 +226,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let currentItem = weatherData
         let formatDate = dateFormatter(date: weatherData[indexPath.item].now)
         let getImageName = photoDict[weatherData[indexPath.item].geoObject.locality.name]
-        let temperature = weatherData[indexPath.item].forecasts[indexPath.item].parts.day
+        let temperature = weatherData[indexPath.item].forecasts[0].parts.day
         cityView.setupDataForView(with: currentItem[indexPath.item], dayTemperature: temperature, image: getImageName!, formattedDate: formatDate)
         
     }
