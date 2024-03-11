@@ -9,6 +9,10 @@ import UIKit
 
 class CityView: UIView {
     
+    //MARK: - Properties
+    
+    let tempItem = "°C"
+    
     //MARK: - User interface element
     
     private let cityImage: UIImageView = {
@@ -44,11 +48,15 @@ class CityView: UIView {
     
     //MARK: - Method
     
-    func setupDataForView(with model: WeatherData, image: String) {
-        cityLabel.text = model.geoObject.locality.name
+    func setupDataForView(with model: WeatherData, dayTemperature: PartDetail, image: String, formattedDate: String) {
         let temperature = model.fact.temp
-        temperatureLabel.text = "\(temperature)°C"
+        let descriptionWeather = model.fact.condition
+        cityLabel.text = model.geoObject.locality.name
+        temperatureLabel.text = "\(temperature)\(tempItem)"
         cityImage.image = UIImage(named: image)
+        weatherDescription.text = descriptionWeather
+        guard let minTemp = dayTemperature.tempMin, let maxTemp = dayTemperature.tempMax else { return }
+        dayLabel.text = "\(formattedDate) \(maxTemp) | \(minTemp)"
     }
     
     //MARK: - Private method

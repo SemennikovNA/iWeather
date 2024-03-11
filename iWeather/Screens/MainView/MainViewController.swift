@@ -60,7 +60,6 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         
         // Call method's
-        
         setupView()
         setupConstraints()
     }
@@ -83,6 +82,12 @@ class MainViewController: UIViewController {
         setupHourCollection()
         signatureDelegate()
         setupNavigationBar()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+            let nowDate = 1712361641
+            let formattedDate = self.dateFormatter(date: nowDate)
+            print(formattedDate)
+        }
     }
     
     private func signatureDelegate() {
@@ -107,13 +112,13 @@ class MainViewController: UIViewController {
     
     private func dateFormatter(date: Int) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd-MM-yyyy"
-        dateFormatter.dateStyle = .medium
+        dateFormatter.dateFormat = "dd MMM EEE"
+        dateFormatter.locale = Locale(identifier: "ru_RU_POSIX")
         dateFormatter.timeZone = .current
         
         let dateObject = Date(timeIntervalSince1970: TimeInterval(date))
-        
         let formattedDate = dateFormatter.string(from: dateObject)
+        
         return formattedDate
     }
     
@@ -219,8 +224,10 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let currentItem = weatherData
+        let formatDate = dateFormatter(date: weatherData[indexPath.item].now)
         let getImageName = photoDict[weatherData[indexPath.item].geoObject.locality.name]
-        cityView.setupDataForView(with: currentItem[indexPath.item], image: getImageName!)
+        let temperature = weatherData[indexPath.item].forecasts[indexPath.item].parts.day
+        cityView.setupDataForView(with: currentItem[indexPath.item], dayTemperature: temperature, image: getImageName!, formattedDate: formatDate)
         
     }
     

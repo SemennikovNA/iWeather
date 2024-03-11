@@ -50,7 +50,7 @@ struct Yesterday: Decodable {
 // Фактическая информация о погоде
 struct Fact: Decodable {
     let temp, feelsLike: Int
-    let icon, condition: String
+    let icon, condition: String?
     let windSpeed: Double
     let windDir: String
     let pressureMm, humidity: Int
