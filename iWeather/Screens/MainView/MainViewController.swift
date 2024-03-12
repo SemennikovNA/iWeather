@@ -122,6 +122,16 @@ class MainViewController: UIViewController {
         return formattedDate
     }
     
+    private func removeWord(forString: String) -> String? {
+        let words = forString.components(separatedBy: " ")
+        if let lastWord = words.last {
+            return lastWord
+        } else {
+            return nil
+        }
+
+    }
+    
     private func setupScrollButton() {
         let scrollButton = UIButton(image: "arrow", target: self, action: #selector(scrollRightButtonTapped))
         hourCollection.addSubviews(scrollButton)

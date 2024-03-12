@@ -11,6 +11,8 @@
 		1E537C0F2B9DF01F003D66BF /* WeatherCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E537C0E2B9DF01F003D66BF /* WeatherCollectionView.swift */; };
 		1E537C112B9ED90B003D66BF /* UIButton - Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E537C102B9ED90B003D66BF /* UIButton - Extension.swift */; };
 		1E537C132B9EE07E003D66BF /* CollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E537C122B9EE07E003D66BF /* CollectionHeaderView.swift */; };
+		1E537C162BA019E7003D66BF /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 1E537C152BA019E7003D66BF /* SDWebImage */; };
+		1E537C182BA019E7003D66BF /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1E537C172BA019E7003D66BF /* SDWebImageMapKit */; };
 		1E7DC1212B97633D00295215 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7DC1202B97633D00295215 /* AppDelegate.swift */; };
 		1E7DC1232B97633D00295215 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7DC1222B97633D00295215 /* SceneDelegate.swift */; };
 		1E7DC1252B97633D00295215 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7DC1242B97633D00295215 /* MainViewController.swift */; };
@@ -63,6 +65,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E537C182BA019E7003D66BF /* SDWebImageMapKit in Frameworks */,
+				1E537C162BA019E7003D66BF /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,6 +239,10 @@
 			dependencies = (
 			);
 			name = iWeather;
+			packageProductDependencies = (
+				1E537C152BA019E7003D66BF /* SDWebImage */,
+				1E537C172BA019E7003D66BF /* SDWebImageMapKit */,
+			);
 			productName = iWeather;
 			productReference = 1E7DC11D2B97633D00295215 /* iWeather.app */;
 			productType = "com.apple.product-type.application";
@@ -263,6 +271,9 @@
 				Base,
 			);
 			mainGroup = 1E7DC1142B97633D00295215;
+			packageReferences = (
+				1E537C142BA019E7003D66BF /* XCRemoteSwiftPackageReference "SDWebImage" */,
+			);
 			productRefGroup = 1E7DC11E2B97633D00295215 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -531,6 +542,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1E537C142BA019E7003D66BF /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.19.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1E537C152BA019E7003D66BF /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1E537C142BA019E7003D66BF /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+		1E537C172BA019E7003D66BF /* SDWebImageMapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1E537C142BA019E7003D66BF /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImageMapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1E7DC1152B97633D00295215 /* Project object */;
 }
