@@ -147,12 +147,15 @@ class MainViewController: UIViewController {
     private func formattedDateTime(from timestamp: Int, format: String) -> String {
         let date = Date(timeIntervalSince1970: TimeInterval(timestamp))
         let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US")
+        dateFormatter.amSymbol = "AM"
+        dateFormatter.pmSymbol = "PM"
         
         switch format {
         case "date":
             dateFormatter.dateFormat = "dd MMM EEE"
         case "time":
-            dateFormatter.dateFormat = "HH:mm"
+            dateFormatter.dateFormat = "hh:mma"
         default:
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         }
