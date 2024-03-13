@@ -135,7 +135,7 @@ class MainViewController: UIViewController {
     /// Setup first item in weather data for city view
     private func setupCityView() {
         let currentItem = weatherData
-        let formatDate = dateFormatter(date: weatherData[0].now)
+        let formatDate = formattedDateTime(from: weatherData[0].now, format: "date")
         let getImageName = photoDict[weatherData[0].geoObject.locality.name]
         let temperature = weatherData[0].forecasts[0].parts.day
         let hourData = weatherData[0].forecasts[0].hours
@@ -144,16 +144,21 @@ class MainViewController: UIViewController {
     }
     
     /// This method returm formatted date and week day
-    private func dateFormatter(date: Int) -> String {
+    private func formattedDateTime(from timestamp: Int, format: String) -> String {
+        let date = Date(timeIntervalSince1970: TimeInterval(timestamp))
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd MMM EEE"
-        dateFormatter.locale = Locale(identifier: "ru_RU_POSIX")
-        dateFormatter.timeZone = .current
         
-        let dateObject = Date(timeIntervalSince1970: TimeInterval(date))
-        let formattedDate = dateFormatter.string(from: dateObject)
+        switch format {
+        case "date":
+            dateFormatter.dateFormat = "dd MMM EEE"
+        case "time":
+            dateFormatter.dateFormat = "HH:mm"
+        default:
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        }
         
-        return formattedDate
+        dateFormatter.timeZone = TimeZone.current
+        return dateFormatter.string(from: date)
     }
     
     //MARK: - Objective - C method
@@ -239,18 +244,22 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let dataForCell = weatherData
+        let cityData = weatherData
+        let hourData = hourWeatherData
         
         if collectionView == cityCollection {
             let cell = cityCollection.dequeueReusableCell(withReuseIdentifier: CityCollectionCell.cellID, for: indexPath) as! CityCollectionCell
             cell.layoutIfNeeded()
-            let getImageName = photoDict[dataForCell[indexPath.item].geoObject.locality.name]
-            cell.setupCell(with: dataForCell[indexPath.item], image: getImageName!)
+            let getImageName = photoDict[cityData[indexPath.item].geoObject.locality.name]
+            cell.setupCell(with: cityData[indexPath.item], image: getImageName!)
             cityActivityIndicator.stopAnimating()
             return cell
         } else if collectionView == hourCollection {
             let cell = hourCollection.dequeueReusableCell(withReuseIdentifier: HourCollectionCell.cellID, for: indexPath) as! HourCollectionCell
             hourActivityIndicator.stopAnimating()
+            let prints = hourData[indexPath.item].hourts
+            let currentTime = formattedDateTime(from: prints, format: "time")
+            cell.setupCell(with: hourData[indexPath.item], hour: currentTime)
             cell.layoutIfNeeded()
             return cell
         } else {
@@ -262,16 +271,16 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // Setup city view
         let currentItem = weatherData
-        let formatDate = dateFormatter(date: weatherData[indexPath.item].now)
+        let formatDate = formattedDateTime(from: weatherData[indexPath.item].now, format: "date")
         let getImageName = photoDict[weatherData[indexPath.item].geoObject.locality.name]
         let temperature = weatherData[indexPath.item].forecasts[0].parts.day
-        cityView.setupDataForView(with: currentItem[indexPath.item], dayTemperature: temperature, image: getImageName!, formattedDate: formatDate)
+        self.cityView.setupDataForView(with: currentItem[indexPath.item], dayTemperature: temperature, image: getImageName!, formattedDate: formatDate)
         
         // Setup hour collection
         let hourCollectionData = weatherData[indexPath.item].forecasts[0].hours
-        self.hourWeatherData.removeAll() // Очищаем массив перед добавлением новых данных
+        self.hourWeatherData.removeAll()
         self.hourWeatherData.append(contentsOf: hourCollectionData)
-        hourCollection.reloadData() // Обновляем коллекцию после добавления данных
+        self.hourCollection.reloadData()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

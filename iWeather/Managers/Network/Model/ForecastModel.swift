@@ -126,8 +126,9 @@ struct PartDetail: Decodable {
     }
 }
 
-struct Hour: Decodable {
+struct Hour: Codable {
     let hour: String
+    let hourts: Int
     let temp, feelsLike: Int
     let icon, condition: String
     let windSpeed: Double
@@ -139,6 +140,7 @@ struct Hour: Decodable {
 
     enum CodingKeys: String, CodingKey {
         case hour, temp, icon, condition
+        case hourts = "hour_ts"
         case feelsLike = "feels_like"
         case windSpeed = "wind_speed"
         case windDir = "wind_dir"

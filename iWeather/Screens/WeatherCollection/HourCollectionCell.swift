@@ -57,9 +57,9 @@ class HourCollectionCell: UICollectionViewCell {
     
     //MARK: - Method
     
-    func setupCell(with model: [Hour]) {
-        let temp = model
-        print(temp)
+    func setupCell(with model: Hour, hour: String) {
+        let temp = model.temp
+        timeLabel.text = hour
         temperatureLabel.text = "\(temp)"
     }
     
