@@ -29,7 +29,7 @@ class HourCollectionCell: UICollectionViewCell {
         image.image = UIImage(named: "cloudly")
         return image
     }()
-    private let temperatureLabel = UILabel(text: "-15°C", textAlignment: .center, font: UIFont(name: "poppins-medium", size: 15))
+    private let temperatureLabel = UILabel(textAlignment: .center, font: UIFont(name: "poppins-medium", size: 15))
     private let timeLabel = UILabel(text: "Now", textAlignment: .center, font: UIFont(name: "poppins-bold", size: 15))
     
     //MARK: - Initialize
@@ -57,8 +57,9 @@ class HourCollectionCell: UICollectionViewCell {
     
     //MARK: - Method
     
-    func setupCell(with model: Hour) {
-        let temp = model.temp
+    func setupCell(with model: [Hour]) {
+        let temp = model
+        print(temp)
         temperatureLabel.text = "\(temp)"
     }
     

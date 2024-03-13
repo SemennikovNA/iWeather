@@ -9,6 +9,10 @@ import UIKit
 
 class WeatherCollectionView: UICollectionView {
     
+    //MARK: - Propertie
+    
+    let hourCell = HourCollectionCell()
+    
     //MARK: - Initialize
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
