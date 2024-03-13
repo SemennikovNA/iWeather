@@ -27,7 +27,7 @@ enum APIType {
     
    private var headers: [String: String] {
         
-        return ["X-Yandex-API-Key": "0193dd8e-3f93-48fe-8a05-00d8c8b61a4d"]
+        return ["X-Yandex-API-Key": "c2b33514-3d78-48b8-9b2d-d8e0e93db4c1"]
     }
     
    private var path: String {

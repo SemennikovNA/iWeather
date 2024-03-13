@@ -13,6 +13,7 @@ class HourCollectionCell: UICollectionViewCell {
     //MARK: - Propertie
     
     static let cellID = "hourCell"
+    let imageManager = ImageManager.shared
     
     //MARK: - User interface element
     
@@ -56,8 +57,9 @@ class HourCollectionCell: UICollectionViewCell {
     
     //MARK: - Method
     
-    func setupCell(with model: String) {
-        
+    func setupCell(with model: Hour) {
+        let temp = model.temp
+        temperatureLabel.text = "\(temp)"
     }
     
     //MARK: - Private method

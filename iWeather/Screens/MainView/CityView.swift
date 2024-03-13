@@ -15,16 +15,23 @@ class CityView: UIView {
     
     //MARK: - User interface element
     
+    private let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.style = .large
+        indicator.color = .white
+        indicator.hidesWhenStopped = true
+        indicator.startAnimating()
+        return indicator
+    }()
     private let cityImage: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "moscow")
         return image
     }()
-    private let cityLabel = UILabel(text: "Moscow", textAlignment: .center, font: UIFont(name: "poppins-bold", size: 28))
-    private let temperatureLabel = UILabel(text: "-15°C", textAlignment: .center, font: UIFont(name: "poppins-bold", size: 36))
-    private let weatherDescription = UILabel(text: "Clear sky", textAlignment: .center, font: UIFont(name: "poppins-regular", size: 21.33))
-    private let dayLabel = UILabel(text: "8 Mar Fri 20°C/29°C", textAlignment: .center, font: UIFont(name: "poppins-regular", size: 21.91))
+    private let cityLabel = UILabel(textAlignment: .center, font: UIFont(name: "poppins-bold", size: 28))
+    private let temperatureLabel = UILabel(textAlignment: .center, font: UIFont(name: "poppins-bold", size: 36))
+    private let weatherDescription = UILabel(textAlignment: .center, font: UIFont(name: "poppins-regular", size: 21.33))
+    private let dayLabel = UILabel(textAlignment: .center, font: UIFont(name: "poppins-regular", size: 21.91))
     
     //MARK: - Initialize
     
@@ -57,6 +64,7 @@ class CityView: UIView {
         weatherDescription.text = descriptionWeather
         guard let minTemp = dayTemperature.tempMin, let maxTemp = dayTemperature.tempMax else { return }
         dayLabel.text = "\(formattedDate) \(maxTemp) | \(minTemp)"
+        activityIndicator.stopAnimating()
     }
     
     //MARK: - Private method
@@ -67,16 +75,20 @@ class CityView: UIView {
         self.backgroundColor = .backgroundCity
         
         // Setup image view
-        cityImage.addSubviews(cityLabel, temperatureLabel, weatherDescription, dayLabel)
+        cityImage.addSubviews(activityIndicator, cityLabel, temperatureLabel, weatherDescription, dayLabel)
     }
     
     private func setupConstraits() {
-        NSLayoutConstraint.activate([        
+        NSLayoutConstraint.activate([
             // City image
             cityImage.topAnchor.constraint(equalTo: self.topAnchor),
             cityImage.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             cityImage.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             cityImage.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            
+            // Activity indicator
+            activityIndicator.centerXAnchor.constraint(equalTo: cityImage.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: cityImage.centerYAnchor),
             
             // City label
             cityLabel.topAnchor.constraint(equalTo: cityImage.topAnchor, constant: 169),

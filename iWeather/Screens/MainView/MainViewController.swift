@@ -11,10 +11,15 @@ class MainViewController: UIViewController {
     
     //MARK: - Propertie
     
+    private let groupTask = DispatchGroup()
     private let networkManager = NetworkManager.shared
     private var weatherData: [WeatherData] = [] {
         didSet {
             cityCollection.reloadData()
+        }
+    }
+    private var hourWeatherData: [WeatherData] = [] {
+        didSet {
             hourCollection.reloadData()
         }
     }
@@ -66,12 +71,11 @@ class MainViewController: UIViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        
         cityView.layoutIfNeeded()
     }
     
     //MARK: - Private method
-    
+    /// Setup main view
     private func setupView() {
         // Setup view
         view.backgroundColor = .backgroundViolet
@@ -82,14 +86,9 @@ class MainViewController: UIViewController {
         setupHourCollection()
         signatureDelegate()
         setupNavigationBar()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
-            let nowDate = 1712361641
-            let formattedDate = self.dateFormatter(date: nowDate)
-            print(formattedDate)
-        }
     }
     
+    /// Signature delegates for collection's
     private func signatureDelegate() {
         networkManager.delegate = self
         cityCollection.delegate = self
@@ -98,6 +97,7 @@ class MainViewController: UIViewController {
         hourCollection.dataSource = self
     }
     
+    /// Setup navigation bar
     private func setupNavigationBar() {
         let accountBarButton = UIBarButtonItem(image: UIImage(named: "account"), style: .plain, target: self, action: #selector(accountButtonTapped))
         let menuBarButton = UIBarButtonItem(image: UIImage(named: "burger"), style: .plain, target: self, action: #selector(menuButtonTapped))
@@ -110,6 +110,26 @@ class MainViewController: UIViewController {
         navigationItem.rightBarButtonItem = menuBarButton
     }
     
+    /// Setup scroll button for hour collection
+    private func setupScrollButton() {
+        let scrollButton = UIButton(image: "arrow", target: self, action: #selector(scrollRightButtonTapped))
+        hourCollection.addSubviews(scrollButton)
+        
+        // Scroll button constraints
+        scrollButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -2).isActive = true
+        scrollButton.centerYAnchor.constraint(equalTo: hourCollection.centerYAnchor, constant: -22).isActive = true
+    }
+    
+    /// Setup first item in weather data for city view
+    private func setupCityView() {
+        let currentItem = weatherData
+        let formatDate = dateFormatter(date: weatherData[0].now)
+        let getImageName = photoDict[weatherData[0].geoObject.locality.name]
+        let temperature = weatherData[0].forecasts[0].parts.day
+        cityView.setupDataForView(with: currentItem[0], dayTemperature: temperature, image: getImageName!, formattedDate: formatDate)
+    }
+    
+    /// This method returm formatted date and week day
     private func dateFormatter(date: Int) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd MMM EEE"
@@ -122,27 +142,8 @@ class MainViewController: UIViewController {
         return formattedDate
     }
     
-    private func removeWord(forString: String) -> String? {
-        let words = forString.components(separatedBy: " ")
-        if let lastWord = words.last {
-            return lastWord
-        } else {
-            return nil
-        }
-
-    }
-    
-    private func setupScrollButton() {
-        let scrollButton = UIButton(image: "arrow", target: self, action: #selector(scrollRightButtonTapped))
-        hourCollection.addSubviews(scrollButton)
-        
-        // Scroll button constraints
-        scrollButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -2).isActive = true
-        scrollButton.centerYAnchor.constraint(equalTo: hourCollection.centerYAnchor, constant: -22).isActive = true
-    }
-    
     //MARK: - Objective - C method
-    
+    /// Target for account button
     @objc func accountButtonTapped() {
         let accountVC = GreenViewController(textLabel: "Hello World!")
         accountVC.modalTransitionStyle = .coverVertical
@@ -150,6 +151,7 @@ class MainViewController: UIViewController {
         present(accountVC, animated: true)
     }
     
+    /// Target for menu button
     @objc func menuButtonTapped() {
         let menuVC = GreenViewController(textLabel: "")
         menuVC.modalPresentationStyle = .fullScreen
@@ -157,6 +159,7 @@ class MainViewController: UIViewController {
         navigationController?.pushViewController(menuVC, animated: true)
     }
     
+    /// Target for scroll button for hour collection
     @objc func scrollRightButtonTapped() {
         let cellWidth: CGFloat = 200
         let currentOffset = hourCollection.contentOffset
@@ -174,9 +177,15 @@ class MainViewController: UIViewController {
 extension MainViewController: WeatherDataDelegate {
     
     func transferWeatherData(_ networkManager: NetworkManager, data: [WeatherData]) {
+        self.groupTask.enter()
         self.weatherData = data
-        cityCollection.reloadData()
-        hourCollection.reloadData()
+        guard !weatherData.isEmpty else { return }
+        groupTask.leave()
+        self.groupTask.notify(queue: .main) {
+            self.cityCollection.reloadData()
+            self.hourCollection.reloadData()
+            self.setupCityView()
+        }
     }
 }
 
@@ -205,7 +214,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         if collectionView == cityCollection {
             return weatherData.count
         } else if collectionView == hourCollection {
-            return 10
+            return /*hourWeatherData.count ?? */10
         } else {
             return 10
         }
@@ -234,11 +243,12 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let currentItem = weatherData
+        let hourCollectionData = weatherData[indexPath.item].forecasts[0].hours[indexPath.item].icon
+        print(hourCollectionData)
         let formatDate = dateFormatter(date: weatherData[indexPath.item].now)
         let getImageName = photoDict[weatherData[indexPath.item].geoObject.locality.name]
         let temperature = weatherData[indexPath.item].forecasts[0].parts.day
         cityView.setupDataForView(with: currentItem[indexPath.item], dayTemperature: temperature, image: getImageName!, formattedDate: formatDate)
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
