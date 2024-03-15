@@ -278,7 +278,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let cell = hourCollection.dequeueReusableCell(withReuseIdentifier: HourCollectionCell.cellID, for: indexPath) as! HourCollectionCell
             hourActivityIndicator.stopAnimating()
             let utcTime = hourData[indexPath.item].hourts
-            let hourImage = icons[weatherData[indexPath.item].forecasts[0].hours[0].icon]
+            let hourImage = icons[weatherData[indexPath.item].forecasts[0].hours[0].icon] // Тут удалять
             let currentTime = formattedDateTime(from: utcTime, key: "time")
             cell.setupCell(with: hourData[indexPath.item], hour: currentTime, image: hourImage)
             cell.layoutIfNeeded()

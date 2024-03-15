@@ -15,6 +15,7 @@
 		1E537C1E2BA01F32003D66BF /* poppins-bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1E537C1B2BA01F32003D66BF /* poppins-bold.ttf */; };
 		1E537C252BA41CD6003D66BF /* SVGKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1E537C242BA41CD6003D66BF /* SVGKit */; };
 		1E537C272BA41CD6003D66BF /* SVGKitSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1E537C262BA41CD6003D66BF /* SVGKitSwift */; };
+		1E537C2A2BA491E2003D66BF /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 1E537C292BA491E2003D66BF /* Kingfisher */; };
 		1E7DC1212B97633D00295215 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7DC1202B97633D00295215 /* AppDelegate.swift */; };
 		1E7DC1232B97633D00295215 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7DC1222B97633D00295215 /* SceneDelegate.swift */; };
 		1E7DC1252B97633D00295215 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7DC1242B97633D00295215 /* MainViewController.swift */; };
@@ -59,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E537C2A2BA491E2003D66BF /* Kingfisher in Frameworks */,
 				1E537C272BA41CD6003D66BF /* SVGKitSwift in Frameworks */,
 				1E537C252BA41CD6003D66BF /* SVGKit in Frameworks */,
 			);
@@ -225,6 +227,7 @@
 			packageProductDependencies = (
 				1E537C242BA41CD6003D66BF /* SVGKit */,
 				1E537C262BA41CD6003D66BF /* SVGKitSwift */,
+				1E537C292BA491E2003D66BF /* Kingfisher */,
 			);
 			productName = iWeather;
 			productReference = 1E7DC11D2B97633D00295215 /* iWeather.app */;
@@ -256,6 +259,7 @@
 			mainGroup = 1E7DC1142B97633D00295215;
 			packageReferences = (
 				1E537C232BA41CD6003D66BF /* XCRemoteSwiftPackageReference "SVGKit" */,
+				1E537C282BA491E2003D66BF /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 1E7DC11E2B97633D00295215 /* Products */;
 			projectDirPath = "";
@@ -532,6 +536,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		1E537C282BA491E2003D66BF /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.11.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -544,6 +556,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1E537C232BA41CD6003D66BF /* XCRemoteSwiftPackageReference "SVGKit" */;
 			productName = SVGKitSwift;
+		};
+		1E537C292BA491E2003D66BF /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1E537C282BA491E2003D66BF /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
