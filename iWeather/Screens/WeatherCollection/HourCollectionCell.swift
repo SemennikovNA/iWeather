@@ -6,14 +6,13 @@
 //
 
 import UIKit
-
+import SVGKit
 
 class HourCollectionCell: UICollectionViewCell {
     
     //MARK: - Propertie
     
     static let cellID = "hourCell"
-    let imageManager = ImageManager.shared
     
     //MARK: - User interface element
     
@@ -57,10 +56,12 @@ class HourCollectionCell: UICollectionViewCell {
     
     //MARK: - Method
     
-    func setupCell(with model: Hour, hour: String) {
+    func setupCell(with model: Hour, hour: String, image: SVGKImage?) {
         let temp = model.temp
         timeLabel.text = hour
         temperatureLabel.text = "\(temp)"
+        guard let image = image?.uiImage else { return } 
+        cellImageView.image = image
     }
     
     //MARK: - Private method

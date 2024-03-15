@@ -10,12 +10,11 @@
 		1E537C0B2B9DD51D003D66BF /* GreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E537C0A2B9DD51D003D66BF /* GreenViewController.swift */; };
 		1E537C0F2B9DF01F003D66BF /* WeatherCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E537C0E2B9DF01F003D66BF /* WeatherCollectionView.swift */; };
 		1E537C112B9ED90B003D66BF /* UIButton - Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E537C102B9ED90B003D66BF /* UIButton - Extension.swift */; };
-		1E537C162BA019E7003D66BF /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 1E537C152BA019E7003D66BF /* SDWebImage */; };
-		1E537C182BA019E7003D66BF /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1E537C172BA019E7003D66BF /* SDWebImageMapKit */; };
 		1E537C1C2BA01F32003D66BF /* poppins-regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1E537C192BA01F32003D66BF /* poppins-regular.ttf */; };
 		1E537C1D2BA01F32003D66BF /* poppins-medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1E537C1A2BA01F32003D66BF /* poppins-medium.ttf */; };
 		1E537C1E2BA01F32003D66BF /* poppins-bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1E537C1B2BA01F32003D66BF /* poppins-bold.ttf */; };
-		1E537C222BA02531003D66BF /* SDWebImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E537C212BA02531003D66BF /* SDWebImage.swift */; };
+		1E537C252BA41CD6003D66BF /* SVGKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1E537C242BA41CD6003D66BF /* SVGKit */; };
+		1E537C272BA41CD6003D66BF /* SVGKitSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1E537C262BA41CD6003D66BF /* SVGKitSwift */; };
 		1E7DC1212B97633D00295215 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7DC1202B97633D00295215 /* AppDelegate.swift */; };
 		1E7DC1232B97633D00295215 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7DC1222B97633D00295215 /* SceneDelegate.swift */; };
 		1E7DC1252B97633D00295215 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7DC1242B97633D00295215 /* MainViewController.swift */; };
@@ -38,7 +37,6 @@
 		1E537C192BA01F32003D66BF /* poppins-regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "poppins-regular.ttf"; path = "../../../../../Library/Mobile Documents/com~apple~CloudDocs/MacBook/Development/Fonts/poppins-regular.ttf"; sourceTree = "<group>"; };
 		1E537C1A2BA01F32003D66BF /* poppins-medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "poppins-medium.ttf"; path = "../../../../../Library/Mobile Documents/com~apple~CloudDocs/MacBook/Development/Fonts/poppins-medium.ttf"; sourceTree = "<group>"; };
 		1E537C1B2BA01F32003D66BF /* poppins-bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "poppins-bold.ttf"; path = "../../../../../Library/Mobile Documents/com~apple~CloudDocs/MacBook/Development/Fonts/poppins-bold.ttf"; sourceTree = "<group>"; };
-		1E537C212BA02531003D66BF /* SDWebImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDWebImage.swift; sourceTree = "<group>"; };
 		1E7DC11D2B97633D00295215 /* iWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E7DC1202B97633D00295215 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1E7DC1222B97633D00295215 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -61,8 +59,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1E537C182BA019E7003D66BF /* SDWebImageMapKit in Frameworks */,
-				1E537C162BA019E7003D66BF /* SDWebImage in Frameworks */,
+				1E537C272BA41CD6003D66BF /* SVGKitSwift in Frameworks */,
+				1E537C252BA41CD6003D66BF /* SVGKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,18 +78,9 @@
 		1E537C1F2BA023B7003D66BF /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				1E537C202BA02508003D66BF /* SDWebImage */,
 				1E7DC1362B97658100295215 /* Network */,
 			);
 			path = Managers;
-			sourceTree = "<group>";
-		};
-		1E537C202BA02508003D66BF /* SDWebImage */ = {
-			isa = PBXGroup;
-			children = (
-				1E537C212BA02531003D66BF /* SDWebImage.swift */,
-			);
-			path = SDWebImage;
 			sourceTree = "<group>";
 		};
 		1E7DC1142B97633D00295215 = {
@@ -234,8 +223,8 @@
 			);
 			name = iWeather;
 			packageProductDependencies = (
-				1E537C152BA019E7003D66BF /* SDWebImage */,
-				1E537C172BA019E7003D66BF /* SDWebImageMapKit */,
+				1E537C242BA41CD6003D66BF /* SVGKit */,
+				1E537C262BA41CD6003D66BF /* SVGKitSwift */,
 			);
 			productName = iWeather;
 			productReference = 1E7DC11D2B97633D00295215 /* iWeather.app */;
@@ -266,7 +255,7 @@
 			);
 			mainGroup = 1E7DC1142B97633D00295215;
 			packageReferences = (
-				1E537C142BA019E7003D66BF /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				1E537C232BA41CD6003D66BF /* XCRemoteSwiftPackageReference "SVGKit" */,
 			);
 			productRefGroup = 1E7DC11E2B97633D00295215 /* Products */;
 			projectDirPath = "";
@@ -308,7 +297,6 @@
 				1E7DC14A2B9A37E000295215 /* CityCollectionCell.swift in Sources */,
 				1E7DC1402B9A2F2500295215 /* UIView - Extension.swift in Sources */,
 				1E7DC1502B9AD98500295215 /* UILabel - Extension.swift in Sources */,
-				1E537C222BA02531003D66BF /* SDWebImage.swift in Sources */,
 				1E7DC1592B9B0D6300295215 /* HourCollectionCell.swift in Sources */,
 				1E7DC1452B9A332700295215 /* CityView.swift in Sources */,
 				1E7DC13C2B97749700295215 /* APIType.swift in Sources */,
@@ -536,26 +524,26 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		1E537C142BA019E7003D66BF /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+		1E537C232BA41CD6003D66BF /* XCRemoteSwiftPackageReference "SVGKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SDWebImage/SDWebImage";
+			repositoryURL = "https://github.com/SVGKit/SVGKit";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 5.19.0;
+				minimumVersion = 3.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		1E537C152BA019E7003D66BF /* SDWebImage */ = {
+		1E537C242BA41CD6003D66BF /* SVGKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 1E537C142BA019E7003D66BF /* XCRemoteSwiftPackageReference "SDWebImage" */;
-			productName = SDWebImage;
+			package = 1E537C232BA41CD6003D66BF /* XCRemoteSwiftPackageReference "SVGKit" */;
+			productName = SVGKit;
 		};
-		1E537C172BA019E7003D66BF /* SDWebImageMapKit */ = {
+		1E537C262BA41CD6003D66BF /* SVGKitSwift */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 1E537C142BA019E7003D66BF /* XCRemoteSwiftPackageReference "SDWebImage" */;
-			productName = SDWebImageMapKit;
+			package = 1E537C232BA41CD6003D66BF /* XCRemoteSwiftPackageReference "SVGKit" */;
+			productName = SVGKitSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SVGKit
 
 class MainViewController: UIViewController {
     
@@ -13,6 +14,7 @@ class MainViewController: UIViewController {
     
     private let networkManager = NetworkManager.shared
     private let groupTask = DispatchGroup()
+    private var icons: [String: SVGKImage] = [:]
     private var weatherData: [WeatherData] = [] {
         didSet {
             cityCollection.reloadData()
@@ -135,7 +137,7 @@ class MainViewController: UIViewController {
     /// Setup first item in weather data for city view
     private func setupCityView() {
         let currentItem = weatherData
-        let formatDate = formattedDateTime(from: weatherData[0].now, format: "date")
+        let formatDate = formattedDateTime(from: weatherData[0].now, key: "date")
         let getImageName = photoDict[weatherData[0].geoObject.locality.name]
         let temperature = weatherData[0].forecasts[0].parts.day
         let hourData = weatherData[0].forecasts[0].hours
@@ -143,15 +145,18 @@ class MainViewController: UIViewController {
         cityView.setupDataForView(with: currentItem[0], dayTemperature: temperature, image: getImageName!, formattedDate: formatDate)
     }
     
-    /// This method returm formatted date and week day
-    private func formattedDateTime(from timestamp: Int, format: String) -> String {
+    /// This method returns a formatted date with the day of the week or time.
+    /// Keys:
+    /// Date - "date"
+    /// Time - "time"
+    private func formattedDateTime(from timestamp: Int, key: String) -> String {
         let date = Date(timeIntervalSince1970: TimeInterval(timestamp))
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US")
         dateFormatter.amSymbol = "AM"
         dateFormatter.pmSymbol = "PM"
         
-        switch format {
+        switch key {
         case "date":
             dateFormatter.dateFormat = "dd MMM EEE"
         case "time":
@@ -210,6 +215,18 @@ extension MainViewController: WeatherDataDelegate {
             self.cityCollection.reloadData()
             self.hourCollection.reloadData()
             self.setupCityView()
+            
+            // Загрузка иконок
+            let iconNames = self.weatherData.flatMap { weather in
+                weather.forecasts.flatMap { forecast in
+                    let hourIcons = forecast.hours.compactMap { $0.icon }
+                    return hourIcons
+                }
+            }
+            self.networkManager.fetchIcons(for: iconNames) { iconsDict in
+                self.icons = iconsDict
+                print(self.icons)
+            }
         }
     }
 }
@@ -260,9 +277,10 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         } else if collectionView == hourCollection {
             let cell = hourCollection.dequeueReusableCell(withReuseIdentifier: HourCollectionCell.cellID, for: indexPath) as! HourCollectionCell
             hourActivityIndicator.stopAnimating()
-            let prints = hourData[indexPath.item].hourts
-            let currentTime = formattedDateTime(from: prints, format: "time")
-            cell.setupCell(with: hourData[indexPath.item], hour: currentTime)
+            let utcTime = hourData[indexPath.item].hourts
+            let hourImage = icons[weatherData[indexPath.item].forecasts[0].hours[0].icon]
+            let currentTime = formattedDateTime(from: utcTime, key: "time")
+            cell.setupCell(with: hourData[indexPath.item], hour: currentTime, image: hourImage)
             cell.layoutIfNeeded()
             return cell
         } else {
@@ -274,7 +292,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // Setup city view
         let currentItem = weatherData
-        let formatDate = formattedDateTime(from: weatherData[indexPath.item].now, format: "date")
+        let formatDate = formattedDateTime(from: weatherData[indexPath.item].now, key: "date")
         let getImageName = photoDict[weatherData[indexPath.item].geoObject.locality.name]
         let temperature = weatherData[indexPath.item].forecasts[0].parts.day
         self.cityView.setupDataForView(with: currentItem[indexPath.item], dayTemperature: temperature, image: getImageName!, formattedDate: formatDate)

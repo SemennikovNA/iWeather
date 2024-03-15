@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SVGKit
 
 protocol WeatherDataDelegate {
     
@@ -21,6 +22,7 @@ class NetworkManager {
     //MARK: - Propertie
     
     var forecastData: [WeatherData] = []
+    var hourIcons: [Hour] = []
     var delegate: WeatherDataDelegate?
     private let session = URLSession(configuration: .default)
     private let decoder = JSONDecoder()
@@ -66,7 +68,39 @@ class NetworkManager {
             self.delegate?.transferWeatherData(self, data: self.forecastData)
         }
     }
+    
+    func fetchIcons(for names: [String], completion: @escaping ([String: SVGKImage]) -> Void) {
+        var iconsDict: [String: SVGKImage] = [:]
+        let dispatchGroup = DispatchGroup()
+        
+        for iconName in names {
+            guard let iconURL = URL(string: "https://yastatic.net/weather/i/icons/funky/light/\(iconName).svg") else { continue }
+            
+            dispatchGroup.enter()
+            session.dataTask(with: iconURL) { data, response, error in
+                defer { dispatchGroup.leave() }
+                
+                guard let data = data, error == nil else {
+                    print("Error fetching icon: \(error?.localizedDescription ?? "Unknown error")")
+                    return
+                }
+                
+                do {
+                    let svgImage = SVGKImage(data: data)
+                    iconsDict[iconName] = svgImage
+                } catch {
+                    print("Error decoding icon: \(error)")
+                }
+            }.resume()
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            completion(iconsDict)
+        }
+    }
 
+
+//"https://yastatic.net/weather/i/icons/funky/light/\(name).svg"
     
     //MARK: - Private method
     /// Fetch data
