@@ -22,8 +22,8 @@ class NetworkManager {
     //MARK: - Propertie
     
     var forecastData: [WeatherData] = []
-    var hourIcons: [Hour] = []
     var delegate: WeatherDataDelegate?
+    private let imageCache = ImageCache.shared
     private let session = URLSession(configuration: .default)
     private let decoder = JSONDecoder()
     private let dispatchGroup = DispatchGroup()
@@ -69,38 +69,36 @@ class NetworkManager {
         }
     }
     
-    func fetchIcons(for names: [String], completion: @escaping ([String: SVGKImage]) -> Void) {
-        var iconsDict: [String: SVGKImage] = [:]
+    func loadIcons(for hours: [Hour], completion: @escaping (Result<[String: SVGKImage], Error>) -> Void) {
+        var fetchedIcons: [String: SVGKImage] = [:]
         let dispatchGroup = DispatchGroup()
         
-        for iconName in names {
-            guard let iconURL = URL(string: "https://yastatic.net/weather/i/icons/funky/light/\(iconName).svg") else { continue }
-            
-            dispatchGroup.enter()
-            session.dataTask(with: iconURL) { data, response, error in
-                defer { dispatchGroup.leave() }
-                
-                guard let data = data, error == nil else {
-                    print("Error fetching icon: \(error?.localizedDescription ?? "Unknown error")")
-                    return
-                }
-                
-                do {
-                    let svgImage = SVGKImage(data: data)
-                    iconsDict[iconName] = svgImage
-                } catch {
-                    print("Error decoding icon: \(error)")
-                }
-            }.resume()
-        }
-        
+            for hour in hours {
+                let icon = hour.icon
+                guard let url = URL(string: "https://yastatic.net/weather/i/icons/funky/dark/\(icon).svg") else { continue }
+
+                dispatchGroup.enter()
+                session.dataTask(with: url) { data, response, error in
+                    defer {
+                        dispatchGroup.leave()
+                    }
+
+                    guard let data = data, error == nil else {
+                        completion(.failure(error ?? NSError(domain: "", code: 0, userInfo: nil)))
+                        return
+                    }
+
+                    if let svgImage = SVGKImage(data: data) {
+                        fetchedIcons[icon] = svgImage
+                    }
+                }.resume()
+            }
+
         dispatchGroup.notify(queue: .main) {
-            completion(iconsDict)
+            completion(.success(fetchedIcons))
         }
     }
 
-
-//"https://yastatic.net/weather/i/icons/funky/light/\(name).svg"
     
     //MARK: - Private method
     /// Fetch data

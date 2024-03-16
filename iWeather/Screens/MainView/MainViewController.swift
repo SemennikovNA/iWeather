@@ -215,17 +215,19 @@ extension MainViewController: WeatherDataDelegate {
             self.cityCollection.reloadData()
             self.hourCollection.reloadData()
             self.setupCityView()
-            
-            // Загрузка иконок
-            let iconNames = self.weatherData.flatMap { weather in
-                weather.forecasts.flatMap { forecast in
-                    let hourIcons = forecast.hours.compactMap { $0.icon }
-                    return hourIcons
+
+            self.networkManager.loadIcons(for: self.hourWeatherData) { result in
+                switch result {
+                case .success(let data):
+                    self.icons = data
+                case .failure(_):
+                    print("Failed to load icons")
                 }
-            }
-            self.networkManager.fetchIcons(for: iconNames) { iconsDict in
-                self.icons = iconsDict
-                print(self.icons)
+
+                DispatchQueue.main.async {
+                    self.cityActivityIndicator.stopAnimating()
+                    self.hourActivityIndicator.stopAnimating()
+                }
             }
         }
     }
@@ -263,29 +265,24 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let cityData = weatherData
-        let hourData = hourWeatherData
-        
         if collectionView == cityCollection {
             let cell = cityCollection.dequeueReusableCell(withReuseIdentifier: CityCollectionCell.cellID, for: indexPath) as! CityCollectionCell
+            let city = weatherData[indexPath.item]
+            let getImageName = photoDict[city.geoObject.locality.name]
+            cell.setupCell(with: city, image: getImageName!)
             cell.layoutIfNeeded()
-            let getImageName = photoDict[cityData[indexPath.item].geoObject.locality.name]
-            cell.setupCell(with: cityData[indexPath.item], image: getImageName!)
-            cityActivityIndicator.stopAnimating()
             return cell
         } else if collectionView == hourCollection {
             let cell = hourCollection.dequeueReusableCell(withReuseIdentifier: HourCollectionCell.cellID, for: indexPath) as! HourCollectionCell
-            hourActivityIndicator.stopAnimating()
-            let utcTime = hourData[indexPath.item].hourts
-            let hourImage = icons[weatherData[indexPath.item].forecasts[0].hours[0].icon] // Тут удалять
+            let hour = hourWeatherData[indexPath.item]
+            let utcTime = hour.hourts
             let currentTime = formattedDateTime(from: utcTime, key: "time")
-            cell.setupCell(with: hourData[indexPath.item], hour: currentTime, image: hourImage)
+            let hourIcon = icons[hour.icon]
+            cell.setupCell(with: hour, hour: currentTime, image: hourIcon)
             cell.layoutIfNeeded()
             return cell
         } else {
-            let cell = UICollectionViewCell()
-            return cell
+            return UICollectionViewCell()
         }
     }
     
