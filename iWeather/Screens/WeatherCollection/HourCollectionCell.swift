@@ -56,11 +56,10 @@ class HourCollectionCell: UICollectionViewCell {
     
     //MARK: - Method
     
-    func setupCell(with model: Hour, hour: String, image: SVGKImage?) {
+    func setupCell(with model: Hour, hour: String, image: UIImage?) {
         let temp = model.temp
         timeLabel.text = hour
         temperatureLabel.text = "\(temp)"
-        guard let image = image?.uiImage else { return } 
         cellImageView.image = image
     }
     

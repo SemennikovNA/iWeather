@@ -7,14 +7,14 @@
 
 import UIKit
 import SVGKit
+import Kingfisher
 
 class MainViewController: UIViewController {
     
-    //MARK: - Propertie
+    //MARK: - Properties
     
-    private let networkManager = NetworkManager.shared
     private let groupTask = DispatchGroup()
-    private var icons: [String: SVGKImage] = [:]
+    private let networkManager = NetworkManager.shared
     private var weatherData: [WeatherData] = [] {
         didSet {
             cityCollection.reloadData()
@@ -102,7 +102,7 @@ class MainViewController: UIViewController {
         setupNavigationBar()
     }
     
-    /// Signature delegates for collection's
+    /// Signature delegates
     private func signatureDelegate() {
         networkManager.delegate = self
         cityCollection.delegate = self
@@ -142,7 +142,17 @@ class MainViewController: UIViewController {
         let temperature = weatherData[0].forecasts[0].parts.day
         let hourData = weatherData[0].forecasts[0].hours
         self.hourWeatherData = hourData
+        let hour = hourWeatherData[0]
+        let utcTime = hour.hourts
+        let currentTime = formattedDateTime(from: utcTime, key: "time")
+        let hourIcon = hour.icon
+        let keyForImage = "https://yastatic.net/weather/i/icons/funky/light/\(hourIcon).svg"
+        let cachedImage = KingfisherManager.shared.cache.retrieveImageInMemoryCache(forKey: keyForImage)
         cityView.setupDataForView(with: currentItem[0], dayTemperature: temperature, image: getImageName!, formattedDate: formatDate)
+        hourCollection.hourCell.setupCell(with: hour, hour: currentTime, image: cachedImage)
+        cityActivityIndicator.stopAnimating()
+        hourActivityIndicator.stopAnimating()
+        hourCollection.reloadData()
     }
     
     /// This method returns a formatted date with the day of the week or time.
@@ -159,15 +169,16 @@ class MainViewController: UIViewController {
         switch key {
         case "date":
             dateFormatter.dateFormat = "dd MMM EEE"
+            return dateFormatter.string(from: date)
         case "time":
             dateFormatter.dateFormat = "hh:mma"
+            return dateFormatter.string(from: date)
         default:
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            return dateFormatter.string(from: date)
         }
-        
-        dateFormatter.timeZone = TimeZone.current
-        return dateFormatter.string(from: date)
     }
+
     
     //MARK: - Objective - C method
     /// Target for account button
@@ -204,6 +215,7 @@ class MainViewController: UIViewController {
 extension MainViewController: WeatherDataDelegate {
     
     func transferWeatherData(_ networkManager: NetworkManager, data: [WeatherData]) {
+        
         self.groupTask.enter()
         
         self.weatherData = data
@@ -212,29 +224,12 @@ extension MainViewController: WeatherDataDelegate {
         groupTask.leave()
         
         self.groupTask.notify(queue: .main) {
-            self.cityCollection.reloadData()
-            self.hourCollection.reloadData()
             self.setupCityView()
-
-            self.networkManager.loadIcons(for: self.hourWeatherData) { result in
-                switch result {
-                case .success(let data):
-                    self.icons = data
-                case .failure(_):
-                    print("Failed to load icons")
-                }
-
-                DispatchQueue.main.async {
-                    self.cityActivityIndicator.stopAnimating()
-                    self.hourActivityIndicator.stopAnimating()
-                }
-            }
         }
     }
 }
 
 //MARK: Weather collection
-
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     // Setup city collection
@@ -250,7 +245,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         hourCollection.register(HourCollectionCell.self, forCellWithReuseIdentifier: HourCollectionCell.cellID)
         hourCollection.backgroundColor = .clear
         hourCollection.showsHorizontalScrollIndicator = false
-        hourCollection.contentInset = UIEdgeInsets(top: 0, left: 12, bottom: 10, right: 15)
+        hourCollection.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 10, right: 15)
         setupScrollButton()
     }
     
@@ -277,8 +272,10 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let hour = hourWeatherData[indexPath.item]
             let utcTime = hour.hourts
             let currentTime = formattedDateTime(from: utcTime, key: "time")
-            let hourIcon = icons[hour.icon]
-            cell.setupCell(with: hour, hour: currentTime, image: hourIcon)
+            let hourIcon = hour.icon
+            let keyForImage = "https://yastatic.net/weather/i/icons/funky/light/\(hourIcon).svg"
+            let cachedImage = KingfisherManager.shared.cache.retrieveImageInMemoryCache(forKey: keyForImage)
+            cell.setupCell(with: hour, hour: currentTime, image: cachedImage)
             cell.layoutIfNeeded()
             return cell
         } else {
