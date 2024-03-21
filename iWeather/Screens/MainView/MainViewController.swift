@@ -26,7 +26,7 @@ class MainViewController: UIViewController {
         }
     }
     
-    private var currentWeather: Fact!
+    private var currentWeather = Fact(temp: 0, feelsLike: 0, icon: "", condition: "", windSpeed: 0, windDir: "", pressureMm: 0, humidity: 0, uvIndex: 0, soilMoisture: 0, soilTemp: 0)
     
     private let photoDict: [String: String] = [
         "Москва": "moscow",
@@ -221,12 +221,12 @@ extension MainViewController: WeatherDataDelegate {
         self.groupTask.enter()
         
         self.weatherData = data
+        self.currentWeather = self.weatherData[0].fact
         guard !weatherData.isEmpty else { return }
         
         groupTask.leave()
         
         self.groupTask.notify(queue: .main) {
-            self.currentWeather = self.weatherData[0].fact
             self.setupCityView()
         }
     }
@@ -277,6 +277,9 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let temperature = weatherData[indexPath.item].forecasts[0].parts.day
         self.cityView.setupDataForView(with: currentItem[indexPath.item], dayTemperature: temperature, image: getImageName!, formattedDate: formatDate)
         
+        // Transit city data to header
+        self.currentWeather = currentItem[indexPath.item].fact
+        
         // Setup hour collection
         let hourCollectionData = weatherData[indexPath.item].forecasts[0].hours
         self.hourWeatherData.removeAll()
@@ -288,14 +291,14 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderReuseView.headerID, for: indexPath) as! HeaderReuseView
         header.layoutIfNeeded()
         let headerData = self.currentWeather
-//        let keyForImage = "https://yastatic.net/weather/i/icons/funky/light/\(headerData?.icon).svg"
-//        let cachedImage = KingfisherManager.shared.cache.retrieveImageInMemoryCache(forKey: keyForImage)
-        header.setupHeader(temperature: 4, timeTitle: "NOW", image: UIImage(named: "account"))
+        let keyForImage = "https://yastatic.net/weather/i/icons/funky/light/\(headerData.icon ?? "").svg"
+        let cachedImage = KingfisherManager.shared.cache.retrieveImageInMemoryCache(forKey: keyForImage)
+        header.setupHeader(temperature: headerData.temp, timeTitle: "NOW", image: cachedImage)
         return header
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        let hourCollectionInsets = UIEdgeInsets(top: 20, left: 15, bottom: 20, right: 15)
+        let hourCollectionInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
         guard collectionView == hourCollection else { return UIEdgeInsets.zero }
         return hourCollectionInsets
         }
