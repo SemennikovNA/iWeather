@@ -18,18 +18,13 @@
 [Yandex Weather API](https://yandex.ru/pogoda/b2b/console/api-page)
 
 ## Description 
-#### The application receives data directly from the NASA API, image viewing, and a full description of the image are implemented. On the search page, data is requested each time you enter a new character. Pagination has also been implemented to simplify content loading.
+#### The application requests weather from Yandex for ten cities with a population of over a million.
 
-## Simulators screenshots:
-<p align="center">
+## Screenshots:
+<p align="left">
   <img src="https://github.com/SemennikovNA/iWeather/blob/main/Media/1.png" width="200" height=400 />
-  <img src="https://github.com/SemennikovNA/iWeather/blob/main/Media/2.png" width="330" height=550 />
-</p>
-
-## Simulators screenshots:
-<p align="center">
-  <img src="https://github.com/SemennikovNA/iWeather/blob/main/Media/1.1.png" width="200" height=400 />
-  <img src="https://github.com/SemennikovNA/iWeather/blob/main/Media/2.1.png" width="330" height=550 />
+  
+  <img src="https://github.com/SemennikovNA/iWeather/blob/main/Media/2.png" width="220" height=450 />
 </p>
 
 ## Contact me
