@@ -41,8 +41,8 @@ class MainViewController: UIViewController {
     //MARK: - User interface element
     
     private let cityView = CityView()
-    private var cityCollection = WeatherCollectionView()
-    private var hourCollection = WeatherCollectionView()
+    private var cityCollection = CityCollectionView()
+    private var hourCollection = HourCollectionView()
     private let todayLabel = UILabel(text: "Today", textAlignment: .left, font: UIFont(name: "poppins-medium", size: 20))
     private let cityActivityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
@@ -96,8 +96,7 @@ class MainViewController: UIViewController {
         hourCollection.allowsMultipleSelection = false
         
         // Call method's
-        setupCityCollection()
-        setupHourCollection()
+        setupScrollButton()
         signatureDelegate()
         setupNavigationBar()
     }
@@ -231,23 +230,6 @@ extension MainViewController: WeatherDataDelegate {
 
 //MARK: Weather collection
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-    // Setup city collection
-    private func setupCityCollection() {
-        cityCollection.register(CityCollectionCell.self, forCellWithReuseIdentifier: CityCollectionCell.cellID)
-        cityCollection.backgroundColor = .clear
-        cityCollection.showsHorizontalScrollIndicator = false
-        cityCollection.contentInset = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 15)
-    }
-    
-    // Setup hour collection
-    private func setupHourCollection() {
-        hourCollection.register(HourCollectionCell.self, forCellWithReuseIdentifier: HourCollectionCell.cellID)
-        hourCollection.backgroundColor = .clear
-        hourCollection.showsHorizontalScrollIndicator = false
-        hourCollection.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 10, right: 15)
-        setupScrollButton()
-    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == cityCollection {

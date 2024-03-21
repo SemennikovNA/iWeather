@@ -7,11 +7,7 @@
 
 import UIKit
 
-class WeatherCollectionView: UICollectionView {
-    
-    //MARK: - Propertie
-    
-    let hourCell = HourCollectionCell()
+class CityCollectionView: UICollectionView {
     
     //MARK: - Initialize
     
@@ -19,10 +15,21 @@ class WeatherCollectionView: UICollectionView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         super.init(frame: .zero, collectionViewLayout: layout)
+        
+        // Call method's
+        setupCityCollection()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - Private method
+    // Setup city collection
+    private func setupCityCollection() {
+        self.register(CityCollectionCell.self, forCellWithReuseIdentifier: CityCollectionCell.cellID)
+        self.backgroundColor = .clear
+        self.showsHorizontalScrollIndicator = false
+        self.contentInset = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 15)
+    }
 }

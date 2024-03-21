@@ -32,7 +32,6 @@ struct Info: Decodable {
     let tzinfo: Tzinfo
 }
 
-// Географический объект
 struct GeoObject: Decodable {
     let district, locality, province, country: LocationDetail
 }
@@ -42,12 +41,10 @@ struct LocationDetail: Decodable {
     let name: String
 }
 
-// Информация о вчерашней погоде
 struct Yesterday: Decodable {
     let temp: Int
 }
 
-// Фактическая информация о погоде
 struct Fact: Decodable {
     let temp, feelsLike: Int
     let icon, condition: String?
@@ -71,7 +68,6 @@ struct Fact: Decodable {
     }
 }
 
-// Прогноз
 struct Forecast: Decodable {
     
     let date: String
@@ -152,7 +148,6 @@ struct Hour: Codable {
     }
 }
 
-// Информация о часовом поясе
 struct Tzinfo: Decodable {
     let name: String
     let abbr: String

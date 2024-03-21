@@ -9,8 +9,9 @@
 /* Begin PBXBuildFile section */
 		1E135DDD2BA9777500E860E7 /* IconsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E135DDC2BA9777500E860E7 /* IconsType.swift */; };
 		1E135DE02BA9838800E860E7 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 1E135DDF2BA9838800E860E7 /* Kingfisher */; };
+		1E135DE22BAC37E600E860E7 /* HourCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E135DE12BAC37E600E860E7 /* HourCollectionView.swift */; };
 		1E537C0B2B9DD51D003D66BF /* GreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E537C0A2B9DD51D003D66BF /* GreenViewController.swift */; };
-		1E537C0F2B9DF01F003D66BF /* WeatherCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E537C0E2B9DF01F003D66BF /* WeatherCollectionView.swift */; };
+		1E537C0F2B9DF01F003D66BF /* CityCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E537C0E2B9DF01F003D66BF /* CityCollectionView.swift */; };
 		1E537C112B9ED90B003D66BF /* UIButton - Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E537C102B9ED90B003D66BF /* UIButton - Extension.swift */; };
 		1E537C1C2BA01F32003D66BF /* poppins-regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1E537C192BA01F32003D66BF /* poppins-regular.ttf */; };
 		1E537C1D2BA01F32003D66BF /* poppins-medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1E537C1A2BA01F32003D66BF /* poppins-medium.ttf */; };
@@ -34,8 +35,9 @@
 
 /* Begin PBXFileReference section */
 		1E135DDC2BA9777500E860E7 /* IconsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsType.swift; sourceTree = "<group>"; };
+		1E135DE12BAC37E600E860E7 /* HourCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourCollectionView.swift; sourceTree = "<group>"; };
 		1E537C0A2B9DD51D003D66BF /* GreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenViewController.swift; sourceTree = "<group>"; };
-		1E537C0E2B9DF01F003D66BF /* WeatherCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCollectionView.swift; sourceTree = "<group>"; };
+		1E537C0E2B9DF01F003D66BF /* CityCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCollectionView.swift; sourceTree = "<group>"; };
 		1E537C102B9ED90B003D66BF /* UIButton - Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton - Extension.swift"; sourceTree = "<group>"; };
 		1E537C192BA01F32003D66BF /* poppins-regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "poppins-regular.ttf"; path = "../../../../../Library/Mobile Documents/com~apple~CloudDocs/MacBook/Development/Fonts/poppins-regular.ttf"; sourceTree = "<group>"; };
 		1E537C1A2BA01F32003D66BF /* poppins-medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "poppins-medium.ttf"; path = "../../../../../Library/Mobile Documents/com~apple~CloudDocs/MacBook/Development/Fonts/poppins-medium.ttf"; sourceTree = "<group>"; };
@@ -196,7 +198,8 @@
 			children = (
 				1E7DC1492B9A37E000295215 /* CityCollectionCell.swift */,
 				1E7DC1582B9B0D6300295215 /* HourCollectionCell.swift */,
-				1E537C0E2B9DF01F003D66BF /* WeatherCollectionView.swift */,
+				1E537C0E2B9DF01F003D66BF /* CityCollectionView.swift */,
+				1E135DE12BAC37E600E860E7 /* HourCollectionView.swift */,
 			);
 			path = WeatherCollection;
 			sourceTree = "<group>";
@@ -299,8 +302,9 @@
 				1E7DC1212B97633D00295215 /* AppDelegate.swift in Sources */,
 				1E7DC1232B97633D00295215 /* SceneDelegate.swift in Sources */,
 				1E7DC13E2B98C2B900295215 /* ForecastModel.swift in Sources */,
-				1E537C0F2B9DF01F003D66BF /* WeatherCollectionView.swift in Sources */,
+				1E537C0F2B9DF01F003D66BF /* CityCollectionView.swift in Sources */,
 				1E135DDD2BA9777500E860E7 /* IconsType.swift in Sources */,
+				1E135DE22BAC37E600E860E7 /* HourCollectionView.swift in Sources */,
 				1E537C112B9ED90B003D66BF /* UIButton - Extension.swift in Sources */,
 				1E7DC14A2B9A37E000295215 /* CityCollectionCell.swift in Sources */,
 				1E7DC1402B9A2F2500295215 /* UIView - Extension.swift in Sources */,
@@ -377,7 +381,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -434,7 +438,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
