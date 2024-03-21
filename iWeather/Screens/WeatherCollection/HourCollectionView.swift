@@ -32,6 +32,7 @@ class HourCollectionView: UICollectionView {
     // Setup hour collection
     private func setupHourCollection() {
         self.register(HourCollectionCell.self, forCellWithReuseIdentifier: HourCollectionCell.cellID)
+        self.register(HeaderReuseView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderReuseView.headerID)
         self.backgroundColor = .clear
         self.showsHorizontalScrollIndicator = false
         self.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 10, right: 15)

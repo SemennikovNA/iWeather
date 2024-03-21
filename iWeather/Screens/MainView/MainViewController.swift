@@ -25,6 +25,9 @@ class MainViewController: UIViewController {
             hourCollection.reloadData()
         }
     }
+    
+    private var currentWeather: Fact!
+    
     private let photoDict: [String: String] = [
         "Москва": "moscow",
         "Санкт-Петербург": "snp",
@@ -177,7 +180,7 @@ class MainViewController: UIViewController {
             return dateFormatter.string(from: date)
         }
     }
-
+    
     
     //MARK: - Objective - C method
     /// Target for account button
@@ -223,6 +226,7 @@ extension MainViewController: WeatherDataDelegate {
         groupTask.leave()
         
         self.groupTask.notify(queue: .main) {
+            self.currentWeather = self.weatherData[0].fact
             self.setupCityView()
         }
     }
@@ -280,25 +284,41 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         self.hourCollection.reloadData()
     }
     
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderReuseView.headerID, for: indexPath) as! HeaderReuseView
+        header.layoutIfNeeded()
+        let headerData = self.currentWeather
+//        let keyForImage = "https://yastatic.net/weather/i/icons/funky/light/\(headerData?.icon).svg"
+//        let cachedImage = KingfisherManager.shared.cache.retrieveImageInMemoryCache(forKey: keyForImage)
+        header.setupHeader(temperature: 4, timeTitle: "NOW", image: UIImage(named: "account"))
+        return header
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        let hourCollectionInsets = UIEdgeInsets(top: 20, left: 15, bottom: 20, right: 15)
+        guard collectionView == hourCollection else { return UIEdgeInsets.zero }
+        return hourCollectionInsets
+        }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        let headerSize = CGSize(width: 76, height: 116)
+        guard collectionView == hourCollection else { return CGSize.zero }
+        return headerSize
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         let cityMinimumLineSpacingForSectionAt: CGFloat = 25
         let hourMinimumLineSpacingForSectionAt: CGFloat = 20
-        if collectionView == cityCollection {
-            return cityMinimumLineSpacingForSectionAt
-        } else {
-            return hourMinimumLineSpacingForSectionAt
-        }
+        guard collectionView == cityCollection else { return hourMinimumLineSpacingForSectionAt }
+        return cityMinimumLineSpacingForSectionAt
     }
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cityCellSize = CGSize(width: 172, height: 215)
         let hourCellSize = CGSize(width: 76, height: 116)
-        if collectionView == cityCollection {
-            return cityCellSize
-        } else {
-            return hourCellSize
-        }
+        guard collectionView == cityCollection else { return hourCellSize }
+        return cityCellSize
     }
 }
 

@@ -10,6 +10,7 @@
 		1E135DDD2BA9777500E860E7 /* IconsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E135DDC2BA9777500E860E7 /* IconsType.swift */; };
 		1E135DE02BA9838800E860E7 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 1E135DDF2BA9838800E860E7 /* Kingfisher */; };
 		1E135DE22BAC37E600E860E7 /* HourCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E135DE12BAC37E600E860E7 /* HourCollectionView.swift */; };
+		1E135DE42BAC3ABD00E860E7 /* HeaderReuseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E135DE32BAC3ABD00E860E7 /* HeaderReuseView.swift */; };
 		1E537C0B2B9DD51D003D66BF /* GreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E537C0A2B9DD51D003D66BF /* GreenViewController.swift */; };
 		1E537C0F2B9DF01F003D66BF /* CityCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E537C0E2B9DF01F003D66BF /* CityCollectionView.swift */; };
 		1E537C112B9ED90B003D66BF /* UIButton - Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E537C102B9ED90B003D66BF /* UIButton - Extension.swift */; };
@@ -36,6 +37,7 @@
 /* Begin PBXFileReference section */
 		1E135DDC2BA9777500E860E7 /* IconsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconsType.swift; sourceTree = "<group>"; };
 		1E135DE12BAC37E600E860E7 /* HourCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourCollectionView.swift; sourceTree = "<group>"; };
+		1E135DE32BAC3ABD00E860E7 /* HeaderReuseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderReuseView.swift; sourceTree = "<group>"; };
 		1E537C0A2B9DD51D003D66BF /* GreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenViewController.swift; sourceTree = "<group>"; };
 		1E537C0E2B9DF01F003D66BF /* CityCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCollectionView.swift; sourceTree = "<group>"; };
 		1E537C102B9ED90B003D66BF /* UIButton - Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton - Extension.swift"; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 				1E7DC1582B9B0D6300295215 /* HourCollectionCell.swift */,
 				1E537C0E2B9DF01F003D66BF /* CityCollectionView.swift */,
 				1E135DE12BAC37E600E860E7 /* HourCollectionView.swift */,
+				1E135DE32BAC3ABD00E860E7 /* HeaderReuseView.swift */,
 			);
 			path = WeatherCollection;
 			sourceTree = "<group>";
@@ -310,6 +313,7 @@
 				1E7DC1402B9A2F2500295215 /* UIView - Extension.swift in Sources */,
 				1E7DC1502B9AD98500295215 /* UILabel - Extension.swift in Sources */,
 				1E7DC1592B9B0D6300295215 /* HourCollectionCell.swift in Sources */,
+				1E135DE42BAC3ABD00E860E7 /* HeaderReuseView.swift in Sources */,
 				1E7DC1452B9A332700295215 /* CityView.swift in Sources */,
 				1E7DC13C2B97749700295215 /* APIType.swift in Sources */,
 			);

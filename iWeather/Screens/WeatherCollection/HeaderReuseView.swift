@@ -1,22 +1,26 @@
 //
-//  HourCollectionCell.swift
+//  HeaderReuseView.swift
 //  iWeather
 //
-//  Created by Nikita on 08.03.2024.
+//  Created by Nikita on 21.03.2024.
 //
 
 import UIKit
-import SVGKit
 
-class HourCollectionCell: UICollectionViewCell {
+class HeaderReuseView: UICollectionReusableView {
     
     //MARK: - Propertie
     
-    static let cellID = "hourCell"
+    static let headerID = "HeaderView"
     
     //MARK: - User interface element
     
-    private let cellView: UIView = {
+    private let contentView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .backgroundViolet
+        return view
+    }()
+    private let headerView: UIView = {
         let view = UIView()
         view.backgroundColor = .cellBackground
         return view
@@ -29,7 +33,7 @@ class HourCollectionCell: UICollectionViewCell {
         return image
     }()
     private let temperatureLabel = UILabel(textAlignment: .center, font: UIFont(name: "poppins-medium", size: 15))
-    private let timeLabel = UILabel(textAlignment: .center, font: UIFont(name: "poppins-bold", size: 15))
+    private let timeLabel = UILabel(text: "Now", textAlignment: .center, font: UIFont(name: "poppins-bold", size: 15))
     
     //MARK: - Initialize
 
@@ -48,18 +52,18 @@ class HourCollectionCell: UICollectionViewCell {
     override func layoutIfNeeded() {
         super.layoutIfNeeded()
         
-        cellView.layer.cornerRadius = cellView.frame.size.width / 4
-        cellView.clipsToBounds = true
+        headerView.layer.cornerRadius = headerView.frame.size.width / 4
+        self.clipsToBounds = true
         cellImageView.layer.cornerRadius = cellImageView.frame.size.width / 4
-        cellImageView.clipsToBounds = true
+        self.clipsToBounds = true
     }
     
     //MARK: - Method
     
-    func setupCell(with model: Hour, hour: String, image: UIImage?) {
-        let temp = model.temp
-        timeLabel.text = hour
-        temperatureLabel.text = "\(temp)"
+    func setupHeader(temperature: Int, timeTitle: String, image: UIImage?) {
+        let temp = String(temperature)
+        timeLabel.text = timeTitle
+        temperatureLabel.text = temp
         cellImageView.image = image
     }
     
@@ -68,8 +72,8 @@ class HourCollectionCell: UICollectionViewCell {
     private func setupView() {
         // Setup view
         self.addSubviews(contentView)
-        contentView.addSubviews(cellView, timeLabel)
-        cellView.addSubviews(cellImageView, temperatureLabel)
+        contentView.addSubviews(headerView, timeLabel)
+        headerView.addSubviews(cellImageView, temperatureLabel)
     }
     
     private func setupConstraints() {
@@ -81,28 +85,29 @@ class HourCollectionCell: UICollectionViewCell {
             contentView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             
             // Cell view
-            cellView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            cellView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            cellView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            cellView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -35),
+            headerView.topAnchor.constraint(equalTo: self.topAnchor),
+            headerView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            headerView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            headerView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -35),
             
             // Cell image view
-            cellImageView.topAnchor.constraint(equalTo: cellView.topAnchor),
-            cellImageView.leadingAnchor.constraint(equalTo: cellView.leadingAnchor),
-            cellImageView.trailingAnchor.constraint(equalTo: cellView.trailingAnchor),
-            cellImageView.bottomAnchor.constraint(equalTo: cellView.bottomAnchor, constant: -15),
+            cellImageView.topAnchor.constraint(equalTo: headerView.topAnchor),
+            cellImageView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
+            cellImageView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
+            cellImageView.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -15),
             
             
             // Temperature label
             temperatureLabel.bottomAnchor.constraint(equalTo: cellImageView.bottomAnchor, constant: 3),
-            temperatureLabel.leadingAnchor.constraint(equalTo: cellView.leadingAnchor),
-            temperatureLabel.trailingAnchor.constraint(equalTo: cellView.trailingAnchor),
+            temperatureLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
+            temperatureLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
             
             // Time label
             timeLabel.topAnchor.constraint(equalTo: cellImageView.bottomAnchor, constant: 20),
-            timeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            timeLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            timeLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            timeLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             
         ])
     }
+    
 }
